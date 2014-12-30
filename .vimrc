@@ -1,16 +1,17 @@
-"------------------------------------------------------------------------------
-" Juergen Jung, vimrc file
-"------------------------------------------------------------------------------
+"───────────────────────────────────────────────────────────────────────────────
+" Juergen Jung, vimrc and nvimrc file
+"───────────────────────────────────────────────────────────────────────────────
 " [1] Basics{{{1
+"───────────────────────────────────────────────────────────────────────────────
 filetype off                   " required!
+set nocompatible               " Be iMproved
 
 if has('vim_starting')
-   set nocompatible               " Be iMproved
-
     if has('win32') || has('win64')
         let $TMP="C:/temp"
         let $TEMP="C:/temp"
         set directory=.,$TMP,$TEMP
+        " So that temp folder can be read from
         "-------------------------------------"
         "source $VIMRUNTIME/mswin.vim
         "behave mswin
@@ -19,21 +20,23 @@ if has('vim_starting')
         "set shellslash
         "set shell=/bin/sh
         "set shell=/bin/bash
-        set shellxquote=
+        "set shellxquote=
         "-------------------------------------"
         " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
         " across (heterogeneous) systems easier.
         "set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
         "-------------------------------------"
-        " NeoBundle setup
-        set rtp+=C:\Dropbox\Programs\Vim\vimfiles\bundle\neobundle.vim
-        call neobundle#rc('C:\Dropbox\Programs\Vim\vimfiles\bundle\')
-        "call neobundle#rc(expand('~/.vim/bundle/'))
+        "" [a] NeoBundle setup "set rtp+=C:\Dropbox\Programs\Vim\vimfiles\bundle\neobundle.vim
+        "call neobundle#rc('C:\Dropbox\Programs\Vim\vimfiles\bundle\')
 
-        " [.] Vundle setup
-        "set rtp+=C:\Dropbox\Programs\Vim\vimfiles\bundle\vundle\
-        "call vundle#rc('C:\Dropbox\Programs\Vim\vimfiles\bundle\')
+        " [b] Vundle setup
+        set rtp+=C:\Dropbox\Programs\Vim\vimfiles\bundle\Vundle.vim\
+        call vundle#begin('C:\Dropbox\Programs\Vim\vimfiles\bundle\')
         "older:
+        "set rtp+=~/vimfiles/bundle/Vundle.vim/
+        "let path='~/vimfiles/bundle'
+        "call vundle#rc(path)
+        "call vundle#rc('C:\Dropbox\Programs\Vim\vimfiles\bundle\')
         "set rtp+=C:\Dropbox\dotfiles\.vim\bundle\vundle\
         "call vundle#rc('C:\Dropbox\dotfiles\.vim\bundle\bundle\')
         " -----------------------------
@@ -46,133 +49,177 @@ if has('vim_starting')
         "mklink  C:\Users\LatishSehgal\.vimrc.bundles C:\Dropbox\dotfiles\.vimrc.bundles
         "mklink  C:\Users\LatishSehgal\.vim C:\Dropbox\dotfiles\.vim
     else
-        " NeoBundle setup
-        set rtp+=~/.vim/bundle/neobundle.vim/
-        call neobundle#rc(expand('~/.vim/bundle/'))
-        "call neobundle#rc()
-        " [.] Vundle setup
-        " set rtp+=~/.vim/bundle/vundle/
-        " call vundle#rc()
+        "" [a] NeoBundle setup
+        "set rtp+=~/.vim/bundle/neobundle.vim/
+        "call neobundle#rc(expand('~/.vim/bundle/'))
+        " [b] Vundle setup
+        set rtp+=~/.vim/bundle/Vundle.vim
+        call vundle#begin()
+        "set rtp+=~/.vim/bundle/vundle/
+        "call vundle#rc()
     endif
 
-    " Installation check. Adds helpfiles
-    NeoBundleCheck
+    "" [a] NeoBundle - Installation check. Adds helpfiles
+    "NeoBundleCheck
     source $VIMRUNTIME/macros/matchit.vim
 endif
 "set rtp+=C:\Dropbox\Programs\Vim\vimfiles\bundle\vundle\
 "call vundle#rc('C:\Dropbox\Programs\Vim\vimfiles\bundle\')
 "}}}1
 " [2] NeoBundle stuff{{{1
-" -----------------------------------------------------------------------------
-" Active plugins {{{2
-" ------------------------------------------- "
-" NeoBundle Setup: Let NeoBundle manage NeoBundle {{{3
-NeoBundleFetch 'Shougo/neobundle.vim'
-" [.] Vundle Setup
+"───────────────────────────────────────────────────────────────────────────────
+" [2.1] NeoBundle Setup: Let NeoBundle manage NeoBundle {{{2
+"───────────────────────────────────────────────────────────────────────────────
+"" [a] NeoBundle Setup
+"NeoBundleFetch 'Shougo/neobundle.vim'
+" [b] Vundle Setup
 " let Vundle manage Vundle - required!
-"Bundle 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
-" original repos on github
-"
 " Recommended to install
-NeoBundle 'Shougo/vimproc', {
-  \ 'build' : {
-  \     'windows' : 'make -f make_mingw32.mak',
-  \     'cygwin' : 'make -f make_cygwin.mak',
-  \     'mac' : 'make -f make_mac.mak',
-  \     'unix' : 'make -f make_unix.mak',
-  \    },
-  \ }
-NeoBundle 'Shougo/unite.vim'
-" ------------------------------------------}}}3
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'Lokaltog/vim-powerline'
-"NeoBundle 'bling/vim-airline'
-NeoBundle 'mhinz/vim-startify'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-dispatch.git'
-NeoBundle 'msanders/snipmate.vim'
-NeoBundle 'ervandew/supertab'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'kshenoy/vim-signature'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'xolox/vim-misc'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'kien/rainbow_parentheses.vim'
-NeoBundle 'arecarn/crunch'
-NeoBundle 'utl.vim'
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'gcmt/wildfire.vim'
-NeoBundle 'triglav/vim-visual-increment'
-NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundle 'sjl/gundo.vim'
+" For some reason it simply renames the vimprod64.dll and doesn't compile it,
+" which then fucks up unite etc. So comment this out for now. JJ: 08-07-2014
+"NeoBundle 'Shougo/vimproc.vim', {
+"      \ 'build' : {
+"      \     'windows' : 'tools\\update-dll-mingw',
+"      \     'cygwin' : 'make -f make_cygwin.mak',
+"      \     'mac' : 'make -f make_mac.mak',
+"      \     'unix' : 'make -f make_unix.mak',
+"      \    },
+"      \ }
+"let vimproc_updcmd = has('win64') ?
+"      \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
+"execute "NeoBundle 'Shougo/vimproc.vim'," . string({
+"      \ 'build' : {
+"      \     'windows' : vimproc_updcmd,
+"      \     'cygwin' : 'make -f make_cygwin.mak',
+"      \     'mac' : 'make -f make_mac.mak',
+"      \     'unix' : 'make -f make_unix.mak',
+"      \    },
+"      \ })
+"}}}2
+"  [2.2] Plugins {{{2
+"───────────────────────────────────────────────────────────────────────────────
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'mhinz/vim-startify'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-dispatch.git'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'Raimondi/delimitMate'
+Plugin 'mattn/emmet-vim'
+Plugin 'kshenoy/vim-signature'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'xolox/vim-misc'
+Plugin 'luochen1990/rainbow'
+Plugin 'arecarn/crunch'
+Plugin 'utl.vim'
+Plugin 'gcmt/wildfire.vim'
+Plugin 'triglav/vim-visual-increment'
+Plugin 'sjl/gundo.vim'
+Plugin 'mmahnic/vim-flipwords'
+Plugin 'godlygeek/tabular'
 " ------------------------------------------- "
 " vim-scripts repos
 " ------------------------------------------- "
-NeoBundle 'vim-scripts/vimwiki.git'
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'vim-scripts/kwbdi.vim'
-NeoBundle 'vim-scripts/VOoM'
-NeoBundle 'vim-scripts/Auto-Pairs'
-NeoBundle 'vim-scripts/LanguageTool'
-NeoBundle 'vim-scripts/IndexedSearch'
-NeoBundle 'vim-scripts/xoria256.vim'
-NeoBundle 'vim-scripts/BufOnly.vim'
+Plugin 'vim-scripts/vimwiki.git'
+Plugin 'majutsushi/tagbar'
+Plugin 'vim-scripts/kwbdi.vim'
+Plugin 'vim-scripts/VOoM'
+Plugin 'vim-scripts/Auto-Pairs'
+Plugin 'vim-scripts/LanguageTool'
+Plugin 'vim-scripts/IndexedSearch'
+Plugin 'vim-scripts/BufOnly.vim'
+Plugin 'vim-scripts/DirDiff.vim'
 if v:version>703
-    NeoBundle 'airblade/vim-gitgutter'
-    NeoBundle 'myusuf3/numbers.vim'
-    NeoBundle 'pydave/AsyncCommand'
-    NeoBundle 'tomtom/checksyntax_vim'
-    NeoBundle 'tomasr/molokai'
-    NeoBundle 'vim-scripts/Wombat'
-endif
-
-" ------------------------------------------- "
-" Lazy loading
-" ------------------------------------------- "
-NeoBundleLazy 'klen/python-mode'
-    autocmd FileType python NeoBundleSource python-mode
-NeoBundleLazy 'jcfaria/Vim-R-plugin'
-    autocmd FileType r NeoBundleSource Vim-R-plugin
-NeoBundleLazy 'JuliaLang/julia-vim'
-    autocmd FileType julia NeoBundleSource julia-vim
-" Latex modules
-if v:version>703
-    "NeoBundleLazy 'jcf/vim-latex'
-    "NeoBundle 'sourceforge.net/p/vim-latex/vim-latex'
-    NeoBundleLazy 'git://git.code.sf.net/p/vim-latex/vim-latex'
-        autocmd FileType tex,latex NeoBundleSource vim-latex
-    NeoBundleLazy 'matze/vim-tex-fold'
-        autocmd FileType tex,latex NeoBundleSource vim-tex-fold
+    "Plugin 'vim-scripts/xoria256.vim'
+    Plugin 'terryma/vim-multiple-cursors'
+    Plugin 'ervandew/supertab'
+    Plugin 'Lokaltog/vim-easymotion'
+    Plugin 'airblade/vim-gitgutter'
+    Plugin 'myusuf3/numbers.vim'
+    Plugin 'pydave/AsyncCommand'
+    Plugin 'tomtom/checksyntax_vim'
+    Plugin 'tomasr/molokai'
+    Plugin 'vim-scripts/Wombat'
+    Plugin 'msanders/snipmate.vim'
+    Plugin 'SirVer/ultisnips'
+    Plugin 'klen/python-mode'
+    Plugin 'vim-scripts/python.vim'
+    Plugin 'vim-scripts/python_match.vim'
+    "Plugin 'Rykka/clickable.vim'
+    "Plugin 'Rykka/riv.vim'
+    Plugin 'vim-scripts/vimf90'
+    " Latex modules
+    Plugin 'matze/vim-tex-fold'
+    Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex'
 else
-    NeoBundleLazy 'jcf/vim-latex'
-        autocmd FileType tex,latex NeoBundleSource vim-latex
-    "NeoBundle 'sourceforge.net/p/vim-latex/vim-latex'
-    "NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
-    NeoBundleLazy 'matze/vim-tex-fold'
-        autocmd FileType tex,latex NeoBundleSource vim-tex-fold
+    Plugin 'jcf/vim-latex'
 endif
+"Plugin 'JuliaLang/julia-vim'
 "}}}2
-" Not currently used plugins {{{2
-" ------------------------------------------- "
+" [2.3] Lazy loading plugins {{{2
+"───────────────────────────────────────────────────────────────────────────────
+" Only works with NeoBundle
+"NeoBundleLazy 'matze/vim-tex-fold'
+"    autocmd FileType tex,latex NeoBundleSource vim-tex-fold
+"if v:version>703
+"    NeoBundleLazy 'klen/python-mode'
+"        autocmd FileType python NeoBundleSource python-mode
+"    NeoBundleLazy 'vim-scripts/python.vim'
+"        autocmd FileType python NeoBundleSource python.vim
+"    NeoBundleLazy 'vim-scripts/python_match.vim'
+"        autocmd FileType python NeoBundleSource python_match.vim
+"    "NeoBundleLazy 'ivanov/vim-ipython'
+"        "autocmd FileType python NeoBundleSource vim-ipython
+"    NeoBundleLazy 'jcfaria/Vim-R-plugin'
+"        autocmd FileType r NeoBundleSource Vim-R-plugin
+"    NeoBundleLazy 'JuliaLang/julia-vim'
+"        autocmd FileType julia NeoBundleSource julia-vim
+"    NeoBundleLazy 'Rykka/riv.vim'
+"        autocmd FileType rst NeoBundleSource riv-vim
+"    NeoBundleLazy 'vim-scripts/vimf90'
+"        autocmd FileType fortran NeoBundleSource vimf90
+"    " Latex modules
+"    "NeoBundleLazy 'jcf/vim-latex'
+"    "NeoBundle 'sourceforge.net/p/vim-latex/vim-latex'
+"    NeoBundleLazy 'git://git.code.sf.net/p/vim-latex/vim-latex'
+"        autocmd FileType tex,latex NeoBundleSource vim-latex
+"else
+"    NeoBundleLazy 'jcf/vim-latex'
+"        autocmd FileType tex,latex NeoBundleSource vim-latex
+"    "NeoBundle 'sourceforge.net/p/vim-latex/vim-latex'
+"    "NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
+"endif
+"
+"}}}2
+" [2.4] Not currently used plugins {{{2
+"───────────────────────────────────────────────────────────────────────────────
+"Plugin 'kien/rainbow_parentheses.vim'
+"Plugin 'jcfaria/Vim-R-plugin'
+"Plugin 'vim-scripts/DirDiff.vim'
+"NeoBundle 'Shougo/unite.vim'
+"NeoBundle 'Shougo/neomru.vim'
+"NeoBundle 'honza/vim-snippets'
+"NeoBundle 'bling/vim-airline'
+"NeoBundle '29decibel/codeschool-vim-theme'
 "NeoBundle 'jlanzarotta/bufexplorer'
 "NeoBundle 'vim-scripts/taglist.vim'
 "NeoBundle 'andviro/flake8-vim'
-    "autocmd FileType python NeoBundleSource flake8-vim
+"autocmd FileType python NeoBundleSource flake8-vim
 "NeoBundle 'scrooloose/syntastic'
 "NeoBundle 'vim-scripts/mru.vim'
 "NeoBundle 'kien/ctrlp.vim'
 "NeoBundle 'xolox/vim-session'
+"Bundle 'xolox/vim-shell'
+"Bundle 'xolox/vim-notes'
 "Bundle 'dockyard/vim-easydir'
 "Bundle 'bling/vim-airline'
 "Bundle 'noah/vim256-color'
 "Bundle 'vim-scripts/matchit.zip'
 "Bundle 'rstacruz/sparkup'
 "Bundle 'vim-scripts/L9'
-"Bundle 'xolox/vim-shell'
 "Bundle 'vim-scripts/ScrollColors'
 "Bundle 'prendradjaja/vim-vertigo'
 "Bundle 'vim-scripts/vim-toggle-wrap'
@@ -180,7 +227,6 @@ endif
 "Bundle 'mikewest/vimroom.git'
 "Bundle 'tpope/vim-endwise'
 "Bundle 'stephenmckinney/vim-solarized-powerline.git'
-"Bundle 'xolox/vim-notes'
 "Bundle 'matthias-guenther/hammer.vim'
 "Bundle 'tpope/vim-fugitive'
 "Bundle 'wincent/command-t'
@@ -205,26 +251,206 @@ endif
 "Bundle 'hicursorwords'
 " Can't load rubygems for some reason
 " }}}2
-" Allow plugins by file type {{{2
-filetype plugin on
-filetype indent on
+" [2.5] Allow plugins by file type {{{2
+"───────────────────────────────────────────────────────────────────────────────
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+"filetype plugin on
+"filetype indent on
 " Brief help
-" :BundleList          - list configured bundles
-" :BundleInstall(!)    - install(update) bundles
-" :BundleSearch(!) foo - search(or refresh cache first) for foo
-" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+"  --------------------------------------------
+" PluginList          - list configured bundles
+" PuginUpdate         - PluginUpdate
+" PluginInstall(!)    - install(update) bundles
+" PluginSearch(!) foo - search(or refresh cache first) for foo
+" PluginClean(!)      - confirm(or auto-approve) removal of unused bundles
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
 "}}}2
 "}}}1
+" [4] User Functions {{{1
+"───────────────────────────────────────────────────────────────────────────────
+    if !exists("*MyConceal") "{{{2
+        if version>703
+            function MyConceal()
+                hi jFoldMark ctermbg=Black ctermfg=White guibg=#202020 guifg=#FF0000
+                "highlight Conceal term=underline ctermbg=Black ctermfg=Green guibg=#2e2e2e guifg=#FFA500
+                highlight Conceal term=underline ctermbg=Black ctermfg=Green guibg=#2e2e2e guifg=#4682B4
+                syn match jFoldMark "\v\{\{\{1" display containedin=ALL conceal cchar=❶
+                syn match jFoldMark "\v(\"|!|\%|//|#)\}\}\}1" display containedin=ALL conceal cchar=❶
+                syn match jFoldMark "\v\{\{\{2" display containedin=ALL conceal cchar=❷
+                syn match jFoldMark "\v(\"|!|\%|//|#)\}\}\}2" display containedin=ALL conceal cchar=❷
+                syn match jFoldMark "\v\{\{\{3" display containedin=ALL conceal cchar=❸
+                syn match jFoldMark "\v(\"|!|\%|//|#)\}\}\}3" display containedin=ALL conceal cchar=❸
+                syn match jFoldMark "\v\{\{\{4" display containedin=ALL conceal cchar=❹
+                syn match jFoldMark "\v(\"|!|\%|//|#)\}\}\}4" display containedin=ALL conceal cchar=❹
+                syn match jFoldMark "\v\{\{\{5" display containedin=ALL conceal cchar=❺
+                syn match jFoldMark "\v(\"|!|\%|//|#)\}\}\}5" display containedin=ALL conceal cchar=❺
+                syn match jFoldMark "\v(#)end" display containedin=ALL conceal cchar=■
+                syn match jFoldMark "\v(\"|!|#)_" display containedin=ALL conceal cchar=_
+                syn match jFoldMark "\v(\"|!|#|\/\/)—" display containedin=ALL conceal cchar=—
+                syn match jFoldMark "\v(\"|!|#)─" display containedin=ALL conceal cchar=─
+                "syn match jFoldMark "\v(\/\/)" display containedin=ALL conceal cchar=‖
+                "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
+                set conceallevel=2
+            endfunction
+        else
+            "Do nothing
+        endif
+    endif "}}}2
+    if !exists("*TabLeft") "{{{2
+        function TabLeft()
+            let tab_number = tabpagenr() - 1
+            if tab_number == 0
+                execute "tabm" tabpagenr('$') - 1
+            else
+                execute "tabm" tab_number - 1
+            endif
+        endfunction
+    endif "}}}2
+    if !exists("*TabRight") "{{{2
+        function TabRight()
+            let tab_number = tabpagenr() - 1
+            let last_tab_number = tabpagenr('$') - 1
+            if tab_number == last_tab_number
+                execute "tabm" 0
+            else
+                execute "tabm" tab_number + 1
+            endif
+        endfunction
+    endif "}}}2
+    if !exists("*MyDiff") "{{{2
+        function MyDiff()
+            let opt = '-a --binary '
+            if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+            if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+            let arg1 = v:fname_in
+            if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+            let arg2 = v:fname_new
+            if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+            let arg3 = v:fname_out
+            if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+            if $VIMRUNTIME =~ ' '
+                if &sh =~ '\<cmd'
+                if empty(&shellxquote)
+                    let l:shxq_sav = ''
+                    set shellxquote&
+                endif
+                let cmd = '"' . $VIMRUNTIME . '\diff"'
+                else
+                let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+                endif
+            else
+                let cmd = $VIMRUNTIME . '\diff'
+            endif
+            silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
+            if exists('l:shxq_sav')
+                let &shellxquote=l:shxq_sav
+            endif
+        endfunction
+    "    "function MyDiff()
+    "    "    let opt = ''
+    "    "    if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+    "    "    if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+    "    "    silent execute '!"'.$VIMRUNTIME.'\diff" -a ' . opt . v:fname_in . ' ' . v:fname_new . ' > ' . v:fname_out
+    "    "endfunction
+    endif
+    set diffexpr=MyDiff() "}}}2
+    if !exists("*RemoveM") "{{{2
+        " Removes the ^M character from the end of every line
+        function! RemoveM()
+            execute '%s/\r\(\n\)/\1/g'
+        endfunction
+    endif "}}}2
+    if !exists("*MyRound1") "{{{2
+        " Rounds numbers to 2 digits after comma
+        function! MyRound1()
+            execute '%s/\d\+\.\d\+/\=printf("%.2f",str2float(submatch(0)))/g'
+        endfunction
+    endif "}}}2
+    if !exists("*MyRound2") "{{{2
+        " Rounds numbers to 2 digits after comma
+        function! MyRound2()
+            execute '%s/\.\d\+/\=printf("%.2f",str2float(submatch(0)))/g'
+        endfunction
+    endif "}}}2
+    if !exists("*NeatFoldText") "{{{2
+        if has('gui_running')
+            function! NeatFoldText()
+                let line = ' ' . substitute(getline(v:foldstart),
+                        \ ('^\s*\(["!#%]\|//\)\?\s*\|\s*\(["!#%]\|//\)\?\s*{{' . '{\d*\s*')
+                        \ , '', 'g') . ' '
+                let lines_count = v:foldend - v:foldstart + 1
+                let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+                let foldchar = matchstr(&fillchars, 'fold:\zs.')
+                let foldtextstart = strpart('⮀' . repeat('⮁', v:foldlevel*1) . line, 0, (winwidth(0)*2)/3)
+                let foldtextend = lines_count_text . repeat(foldchar, 8)
+                let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+                return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+            endfunction
+            "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
+        else
+            function! NeatFoldText()
+                let line = ' ' . substitute(getline(v:foldstart),
+                        \ ('^\s*\(["!#%]\|//\)\?\s*\|\s*\(["!#%]\|//\)\?\s*{{' . '{\d*\s*')
+                        \ , '', 'g') . ' '
+                let lines_count = v:foldend - v:foldstart + 1
+                let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+                let foldchar = matchstr(&fillchars, 'fold:\zs.')
+                let foldtextstart = strpart('|' . repeat('>', v:foldlevel*1) . line, 0, (winwidth(0)*2)/3)
+                let foldtextend = lines_count_text . repeat(foldchar, 8)
+                let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+                return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+            endfunction
+            "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
+        endif
+    endif
+    set foldtext=NeatFoldText() "}}}2
+    if !exists("*MakePweave2Html") "{{{2
+        " First transforms Pweave file .Pnw into a reST .rst file
+        " Then calls make html in the parent directory to build .html files
+        function! MakePweave2Html()
+            execute 'cd %:p:h'
+            execute 'write!'
+            execute '! Pweave -f sphinx --figure-directory=_static %'
+            execute 'cd..'
+            execute 'make html'
+            execute 'cd %:p:h'
+        endfunction
+    endif "}}}2
+    if !exists("*MakePweave2HtmlSilent") "{{{2
+        " First transforms Pweave file .Pnw into a reST .rst file
+        " Then calls make html in the parent directory to build .html files
+        function! MakePweave2HtmlSilent()
+            execute 'cd %:p:h'
+            execute 'write!'
+            execute 'silent ! Pweave -f sphinx --figure-directory=_static %'
+            execute 'cd..'
+            execute 'silent make html'
+            execute 'cd %:p:h'
+        endfunction
+    endif "}}}2
+    if !exists("*SetWinPos") "{{{2
+        " Saves window position and then resets it
+        function! SetWinPos()
+            let g:winpos_x1 = getwinposx()
+            let g:winpos_y1 = 30
+            exec ':winpos ' . g:winpos_x1 . ' ' . g:winpos_y1
+        endfunction
+    endif "}}}2
+"}}}1
 " [3] Plugin options {{{1
-" Tasklist {{{2
-" [1] http://www.vim.org/scripts/script.php?script_id=2607
+"───────────────────────────────────────────────────────────────────────────────
+" [3.1] Tasklist {{{2
+"───────────────────────────────────────────────────────────────────────────────
+" http://www.vim.org/scripts/script.php?script_id=2607
     noremap T :TaskList<CR>
     noremap TT :TlistToggle<CR>
 "}}}2
-" Wildfire {{{2
-" [1] https://github.com/gcmt/wildfire.vim
+" [3.2] Wildfire {{{2
+"───────────────────────────────────────────────────────────────────────────────
+" https://github.com/gcmt/wildfire.vim
     " This selects the next closest text object.
     let g:wildfire_fuel_map = "<S-ENTER>"
 
@@ -232,7 +458,8 @@ filetype indent on
     let g:wildfire_water_map = "<BS>"
     "let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "ip", "it"]
 "}}}2
-" Vim-airline {{{2
+" [3.4] Vim-airline {{{2
+"───────────────────────────────────────────────────────────────────────────────
     "if !exists('g:airline_symbols')
         "let g:airline_symbols = {}
     "endif
@@ -266,10 +493,12 @@ filetype indent on
     "let g:airline_symbols.readonly = '⭤'
     "let g:airline_symbols.linenr = '⭡'
 ""    }}}2
-" Vim Git Gutter {{{2
+" [3.5] Vim Git Gutter {{{2
+"───────────────────────────────────────────────────────────────────────────────
     let g:gitgutter_enabled = 0
 "}}}2
-"Nerdtree {{{2
+" [3.6] Nerdtree {{{2
+"───────────────────────────────────────────────────────────────────────────────
     if has('gui_running')
         let g:NERDTreeDirArrows=1
     else
@@ -278,7 +507,8 @@ filetype indent on
     let g:NERDChristmasTree=1
     "let NERDTreeShowLineNumbers=1
 "}}}2
-" Vim latexsuite {{{2
+" [3.7] Vim latexsuite {{{2
+"───────────────────────────────────────────────────────────────────────────────
     " IMPORTANT: grep will sometimes skip displaying the file name if you
     " search in a single file. This will confuse Latex-Suite. Set your grep
     " program to always generate a file-name.
@@ -297,12 +527,12 @@ filetype indent on
     let g:Tex_DefaultTargetFormat='pdf'
     let g:Tex_MultipleCompileFormats='pdf'
     "
-    let g:Tex_CompileRule_pdf='pdflatex -synctex=-1 -src-specials -interaction=nonstopmode $*'
-    "
     "let g:Tex_ViewRule_pdf ='C:\Program Files (x86)\SumatraPDF\SumatraPDF  -reuse-instance'
     if has('win32') || has('win64')
         let g:Tex_ViewRule_pdf='C:\Program Files (x86)\SumatraPDF\SumatraPDF -reuse-instance -inverse-search "gvim -c \":RemoteOpen +\%l \%f\""'
     endif
+
+    let g:Tex_CompileRule_pdf='pdflatex --synctex=-1 -src-specials -interaction=nonstopmode $*'
     let g:Tex_GotoError=0
     let g:tex_fast= "bcMrsvV"
     "p...parts,section,chapter makes latex-syntax highlighting very SLOW!!
@@ -322,13 +552,13 @@ filetype indent on
     " ----
     "  Folding
     let g:Tex_FoldedEnvironments="frame"
-
+    let g:Tex_SmartKeyDot=0
     " TIP: if you write your \label's as \label{fig:something}, then if you
     " type in \ref{fig: and press <C-n> you will automatically cycle through
     " all the figure labels. Very useful!
-    set iskeyword+=:
 "}}}2
-" vim-tex-fold {{{2
+" [3.8] vim-tex-fold {{{2
+"───────────────────────────────────────────────────────────────────────────────
     let g:tex_fold_override_foldtext = 0
     "if has('win32') || has('win64')
         "let g:tex_fold_sec_char = ''
@@ -344,12 +574,77 @@ filetype indent on
     let g:tex_fold_allow_marker = 1
     "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
     "}}}2
-" Python plugin {{{2
-    let g:pymode_lint_write=0     " Disable pylint checking every save
-    " Set key 'R' for run python code
-    let g:pymode_run_key='R'
+" [3.9] Python-mode plugin {{{2
+"───────────────────────────────────────────────────────────────────────────────
+    "filetype plugin indent on " required!
+    "syntax on
+
+    " Load the whole python-mode plugin
+    let g:pymode = 1
+    let g:pymode_indent = 0
+
+    let g:pymode_lint = 0
+    " Disable pylint checking every save
+    let g:pymode_lint_write = 0
+    let g:pymode_folding = 0
+    "let g:pymode_motion = 1
+    "let g:pymode_doc = 1
+    "let g:pymode_doc_bind = 1
+    "" Set key 'R' for run python code
+    "let g:pymode_run = 1
+    "let g:pymode_run_key='R'
+    "let g:pymode_run_bind ='<leader>r'
+
+    "let g:pymode_breakpoint = 1
+    let g:pymode_breakpoint_bind = '<leader>b'
+    "let g:pymode_breakpoint_cmd = ''
+
+    "let g:pymode_lint_message = 1
+    "let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'mccabe']
+    "let g:pymode_lint_signs = 1
+
+    "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
+    let g:pymode_lint_todo_symbol = 'W▸'
+    let g:pymode_lint_comment_symbol = 'C▸'
+    let g:pymode_lint_visual_symbol = 'R▸'
+    let g:pymode_lint_error_symbol = 'ϟ'
+    let g:pymode_lint_info_symbol = 'I▸'
+    let g:pymode_lint_pyflakes_symbol = 'F⮁'
+
+    "let g:pymode_lint_todo_symbol = 'WW'
+    "let g:pymode_lint_comment_symbol = 'CC'
+    "let g:pymode_lint_visual_symbol = 'RR'
+    "let g:pymode_lint_error_symbol = 'EE'
+    "let g:pymode_lint_info_symbol = 'II'
+    "let g:pymode_lint_pyflakes_symbol = 'FF'
+
+    let g:pymode_rope = 0
+    "let g:pymode_rope_regenerate_on_write = 1
+    "let g:pymode_rope_completion = 1
+    "let g:pymode_rope_complete_on_dot = 1
+    "let g:pymode_rope_completion_bind = '<C-Space>'
+    "let g:pymode_rope_goto_definition_bind = '<C-c>g'
+    "let g:pymode_rope_goto_definition_cmd = 'new'
+
+    "let g:pymode_syntax = 1
+    "let g:pymode_syntax_all = 1
+    "let g:pymode_syntax_print_as_function = 1
+    "let g:pymode_syntax_highlight_equal_operator = g:pymode_syntax_all
+    "let g:pymode_syntax_highlight_stars_operator = g:pymode_syntax_all
+    "let g:pymode_syntax_highlight_self = g:pymode_syntax_all
+    "let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+    "let g:pymode_syntax_space_errors = g:pymode_syntax_all
+    "let g:pymode_syntax_string_formatting = g:pymode_syntax_all
+    "let g:pymode_syntax_string_format = g:pymode_syntax_all
+    "let g:pymode_syntax_string_templates = g:pymode_syntax_all
+    "let g:pymode_syntax_doctests = g:pymode_syntax_all
+    "let g:pymode_syntax_builtin_objs = g:pymode_syntax_all
+    "let g:pymode_syntax_builtin_types = g:pymode_syntax_all
+    "let g:pymode_syntax_highlight_exceptions = g:pymode_syntax_all
+    "let g:pymode_syntax_docstrings = g:pymode_syntax_all
 "}}}2
-" Startify {{{2
+" [3.10] Startify {{{2
+"───────────────────────────────────────────────────────────────────────────────
     if hostname()=="econ01"
         let g:startify_session_dir    = '~/.sessions'
     else
@@ -397,16 +692,19 @@ filetype indent on
     "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
     "-----------------------------------
         "}}}2
-" Vim Languagetool - grammar check {{{2
+" [3.11] Vim Languagetool - grammar check {{{2
+"───────────────────────────────────────────────────────────────────────────────
     if has('win32') || has('win64')
         let g:languagetool_jar='C:/Programs/LanguageTool-2.2/languagetool-commandline.jar'
     endif
     "}}}2
-" Turn on supertab for autocompletion with omnicompletion {{{2
+" [3.12] Turn on supertab for autocompletion with omnicompletion {{{2
+"───────────────────────────────────────────────────────────────────────────────
     let g:SuperTabDefaultCompletionType="<C-X><C-O>"
     let g:SuperTabDefaultCompletionType="context"
     "}}}2
-" Tagbar plugin {{{2
+" [3.13] Tagbar plugin {{{2
+"───────────────────────────────────────────────────────────────────────────────
     if has('win32') || has('win64')
         let g:tagbar_ctags_bin='C:/Programs/ctags58/ctags.exe'
         let g:tagbar_iconchars = ['▸', '▾']
@@ -414,17 +712,23 @@ filetype indent on
     endif
     let g:tagbar_width=30
         "}}}2
-" Vim Languagetool - grammar check {{{2
+" [3.14] Vim Languagetool - grammar check {{{2
+"───────────────────────────────────────────────────────────────────────────────
     if has('win32') || has('win64')
         let g:languagetool_jar='C:/Programs/LanguageTool-2.2/languagetool-commandline.jar'
     endif
     "}}}2
-" Turn on supertab for autocompletion with omnicompletion {{{2
+" [3.15] Turn on supertab for autocompletion with omnicompletion {{{2
+"───────────────────────────────────────────────────────────────────────────────
     let g:SuperTabDefaultCompletionType="<C-X><C-O>"
     let g:SuperTabDefaultCompletionType="context"
     "}}}2
+    "[3.16] Rainbow Parenthesis {{{2
+"───────────────────────────────────────────────────────────────────────────────
+    let g:rainbow_active = 0 "0 if you want to enable it later via :RainbowToggle
     "}}}2
 "" Vim session {{{2
+"───────────────────────────────────────────────────────────────────────────────
     "" Vim session directory
     "if hostname()=="econ01"
        "let g:session_directory='~/.sessions'
@@ -440,6 +744,7 @@ filetype indent on
 "    endif
 "}}}2
 "" CtrlP {{{2
+"───────────────────────────────────────────────────────────────────────────────
     "let g:ctrlp_map = '<c-p>'
     "let g:ctrlp_cmd = 'CtrlP'
     "let g:ctrlp_custom_ignore = {
@@ -448,110 +753,8 @@ filetype indent on
   "\ }
 ""}}}2
 "}}}1
-" [4] User Functions {{{1
-    if !exists("*MyConceal") "{{{2
-        if version>703
-            function MyConceal()
-                hi jFoldMark ctermbg=Black ctermfg=White guibg=#202020 guifg=#FF0000
-                "highlight Conceal term=underline ctermbg=Black ctermfg=Green guibg=#262626 guifg=#FFA500
-                highlight Conceal term=underline ctermbg=Black ctermfg=Green guibg=#262626 guifg=#008000
-                syn match jFoldMark "\v\{\{\{1" display containedin=ALL conceal cchar=❶
-                syn match jFoldMark "\v(\"|!|\%|//|#)\}\}\}1" display containedin=ALL conceal cchar=❶
-                syn match jFoldMark "\v\{\{\{2" display containedin=ALL conceal cchar=❷
-                syn match jFoldMark "\v(\"|!|\%|//|#)\}\}\}2" display containedin=ALL conceal cchar=❷
-                syn match jFoldMark "\v\{\{\{3" display containedin=ALL conceal cchar=❸
-                syn match jFoldMark "\v(\"|!|\%|//|#)\}\}\}3" display containedin=ALL conceal cchar=❸
-                syn match jFoldMark "\v\{\{\{4" display containedin=ALL conceal cchar=❹
-                syn match jFoldMark "\v(\"|!|\%|//|#)\}\}\}4" display containedin=ALL conceal cchar=❹
-                syn match jFoldMark "\v\{\{\{5" display containedin=ALL conceal cchar=❺
-                syn match jFoldMark "\v(\"|!|\%|//|#)\}\}\}5" display containedin=ALL conceal cchar=❺
-                "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
-                set conceallevel=2
-            endfunction
-        else
-            function MyConceal()
-                "Do nothing
-            endfunction
-        endif
-    endif "}}}2
-    if !exists("*TabLeft") "{{{2
-        function TabLeft()
-            let tab_number = tabpagenr() - 1
-            if tab_number == 0
-                execute "tabm" tabpagenr('$') - 1
-            else
-                execute "tabm" tab_number - 1
-            endif
-        endfunction
-    endif "}}}2
-    if !exists("*TabRight") "{{{2
-        function TabRight()
-            let tab_number = tabpagenr() - 1
-            let last_tab_number = tabpagenr('$') - 1
-            if tab_number == last_tab_number
-                execute "tabm" 0
-            else
-                execute "tabm" tab_number + 1
-            endif
-        endfunction
-    endif "}}}2
-    if !exists("*MyDiff") "{{{2
-        function MyDiff()
-            let opt = ''
-            if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-            if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-            silent execute '!"'.$VIMRUNTIME.'\diff" -a ' . opt . v:fname_in . ' ' . v:fname_new . ' > ' . v:fname_out
-        endfunction
-    endif
-    set diffexpr=MyDiff() "}}}2
-    if !exists("*RemoveM") "{{{2
-        " Removes the ^M character from the end of every line
-        function! RemoveM()
-            execute '%s/\r\(\n\)/\1/g'
-        endfunction
-    endif "}}}2
-    if !exists("*MyRound") "{{{2
-        " Rounds numbers to 2 digits after comma
-        function! MyRound()
-            execute '%s/\d\+\.\d\+/\=printf(\'%.2f\',str2float(submatch(0)))/g'
-        endfunction
-    endif "}}}2
-    if !exists("*NeatFoldText") "{{{2
-
-        if has('gui_running')
-            function! NeatFoldText()
-                let line = ' ' . substitute(getline(v:foldstart),
-                        \ ('^\s*\(["!#%]\|//\)\?\s*\|\s*\(["!#%]\|//\)\?\s*{{' . '{\d*\s*')
-                        \ , '', 'g') . ' '
-                let lines_count = v:foldend - v:foldstart + 1
-                let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
-                let foldchar = matchstr(&fillchars, 'fold:\zs.')
-                let foldtextstart = strpart('⮀' . repeat('⮁', v:foldlevel*1) . line, 0, (winwidth(0)*2)/3)
-                let foldtextend = lines_count_text . repeat(foldchar, 8)
-                let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-                return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
-            endfunction
-            "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
-        else
-            function! NeatFoldText()
-                let line = ' ' . substitute(getline(v:foldstart),
-                        \ ('^\s*\(["!#%]\|//\)\?\s*\|\s*\(["!#%]\|//\)\?\s*{{' . '{\d*\s*')
-                        \ , '', 'g') . ' '
-                let lines_count = v:foldend - v:foldstart + 1
-                let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
-                let foldchar = matchstr(&fillchars, 'fold:\zs.')
-                let foldtextstart = strpart('|' . repeat('>', v:foldlevel*1) . line, 0, (winwidth(0)*2)/3)
-                let foldtextend = lines_count_text . repeat(foldchar, 8)
-                let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-                return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
-            endfunction
-            "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
-        endif
-    endif
-
-    set foldtext=NeatFoldText() "}}}2
-"}}}1
 " [5] Other option settings {{{1
+"───────────────────────────────────────────────────────────────────────────────
     ":command! -nargs=+ Calc :py print <args>
     ":py from math import *
 
@@ -563,12 +766,12 @@ filetype indent on
     retab
     set diffopt=filler
 "}}}1
-" [6] General settings {{{1
 
+" [6] General settings {{{1
+"───────────────────────────────────────────────────────────────────────────────
     set hidden
     set nobackup
     set noswapfile
-
     " For Python style programming
     " set wrap linebreak nolist " softwrap, doesn't break words
     set nowrap
@@ -590,8 +793,8 @@ filetype indent on
 
     set expandtab
     set softtabstop=4
-    let fortran_free_source = 1
     syntax enable
+
     set nuw=5
     set tabpagemax=30
 
@@ -612,212 +815,145 @@ filetype indent on
     " 2: always show status line
     set number " enable line numbers
     let g:enable_numbers=0 " Numbers toggle - turn off relative line numbers. Turn on with F3"
-    set linespace=0 " Pixels of space between lines
+
+    set linespace=1 " Pixels of space between lines
     set thesaurus+=C:\Dropbox\Bib\mthesaur.txt
     "
     set lines=999 columns=118
-    set textwidth=79             " Line length before wrapping
+    set showtabline=1           " Don't show tabline
+    set textwidth=79            " Line length before wrapping
 
-    set cursorline               " turn on highlight for active line
-    set nowinfixwidth            " :set winfixwidth -->fixed window size so nerdtree etc. does not shrink active window
-    set mousehide           " Hide the mouse when typing text
-    let c_comment_strings=1 " I like highlighting strings inside C comments
+    set cursorline              " turn on highlight for active line
+    set nowinfixwidth           " :set winfixwidth -->fixed window size so nerdtree etc. does not shrink active window
+    set mousehide               " Hide the mouse when typing text
+    let c_comment_strings=1     " I like highlighting strings inside C comments
     "
     set encoding=utf-8
     set wildmenu            " visual autocomplete for command menu
     set lazyredraw          " redraw only when we need to.
 "}}}1
-"                                                                              "
 " [7] GUI vs. Terminal configuration {{{1
-if has('gui_running')
-    " ----------------------------------
-    " GUI version
-    " ----------------------------------
-    if hostname()=="BR962"
-        set guifont=Consolas\ for\ Powerline\ FixedD:b:h13
-    elseif has('gui_gtk2')
-        set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
-    else
-        set guifont=Consolas\ for\ Powerline\ FixedD:b:h10
-        "set gfn=Lucida_Sans_Typewriter_Regular:h10:b:cANSI
-    endif
+"───────────────────────────────────────────────────────────────────────────────
+    " [7.1] GUI version {{{2
+    "───────────────────────────────────────────────────────────────────────────
+    if has('gui_running')
+        if hostname()=="BR962"
+            set guifont=Consolas\ for\ Powerline\ FixedD:b:h12
+        elseif has('gui_gtk2')
+            set guifont=Bitstream\ Vera\ Sans\ Mono\ 12
+        else
+            set guifont=Consolas\ for\ Powerline\ FixedD:b:h10
+            "set gfn=Lucida_Sans_Typewriter_Regular:h10:b:cANSI
+        endif
 
-    " Set winpos after setting guifont, so window can be reset and put in right
-    " place !!!
-    "
-    " We need both!!
-    " On starting vim we need autocmd
-    autocmd GUIEnter * winpos 0 30
-    " This is for everytime vc file is refreshed
-    winpos 0 30
+        " Set winpos after setting guifont, so window can be reset and put in right
+        " place !!!
+        " On starting vim we need autocmd
+        autocmd GUIEnter * winpos 0 30
 
-    let g:Powerline_symbols="fancy"
-    set laststatus=2
-    colorscheme xoria256
-    "colorscheme sorcerer
-    "colorscheme fu
+        let g:Powerline_symbols="fancy"
+        set laststatus=2
+        colorscheme xoria256
+        "colorscheme sorcerer
+        "colorscheme fu
 
-    " -----------------------------
-    " Set GUI options, like having tabs etc.
-    " -----------------------------
-    " m = Menubar
-    " T = Toolbar
-    " t = tearoff menus
-    " a = autoselect "this overwrite clipboard register * or + with visual selection
-    " A = -"- only for modeless
-    " c = use console dialogs
-    " f = foreground
-    " g = Grey Menu Items
-    " i = Icon
-    " v = buttons are vertical
-    " e = tabs in gui
-    " This has to be set early
-    " r = show right scroll bar
-    " L = show left scrollbar on split
-    " i = icon
-    set guioptions=ftigre
+        " -----------------------------
+        " Set GUI options, like having tabs etc.
+        " -----------------------------
+        " m = Menubar
+        " T = Toolbar
+        " t = tearoff menus
+        " a = autoselect "this overwrite clipboard register * or + with visual selection
+        " A = -"- only for modeless
+        " c = use console dialogs
+        " f = foreground
+        " g = Grey Menu Items
+        " i = Icon
+        " v = buttons are vertical
+        " e = tabs in gui
+        " This has to be set early
+        " r = show right scroll bar
+        " L = show left scrollbar on split
+        " i = icon
+        set guioptions=ftigre
+        " Gui tab label definition
+        " -----------------------------
+        set guitablabel=\[%N\]\ %t\ %M
 
-    " Gui tab label definition
-    " -----------------------------
-    set guitablabel=\[%N\]\ %t\ %M
-
-    "" Autocommand filetype specific -> buffer enter {{{2
-    "augroup configgroup
-        "autocmd! BufEnter,BufNewFile *.do,*.ado
-            "\ setlocal nowrap |
-            "\ setlocal formatoptions-=t |
-            "\ call MyConceal()
-            ""\ set gfn=Consolas\ for\ Powerline\ FixedD:b:h11 |
-            ""\ let g:Powerline_symbols="fancy" |
-            ""\ set t_Co=256 |
-            ""\ set laststatus=2 |
-            ""\ highlight ColorColumn ctermbg=235 guibg=#262626
-        "autocmd! BufEnter,BufNewFile *.tex
-            "\ highlight Conceal cterm=NONE ctermbg=NONE ctermfg=darkblue guibg=NONE guifg=NONE |
-            "\ hi SignColumn  ctermfg=235 guifg=#202020 guibg=#202020 |
-            "\ hi Folded guifg= #C5C5BF guibg=#3C3C59 |
-            "\ hi ColorColumn ctermbg=235 guibg=#262626
-            ""\ set regexpengine=1
-            ""\ set gfn=Consolas\ for\ Powerline\ FixedD:b:h11 |
-            ""\ let g:Powerline_symbols="compatible" |
-            ""\ set t_Co=256 |
-            ""\ set laststatus=2 |
-            ""\ colorscheme elflord |
-        "autocmd! BufEnter,BufNewFile *.f90,*.f95,*.f77
-            "\ retab |
-            "\ !write |
-            "\ IndentGuidesEnable |
-            "\ call MyConceal()
-            ""\ set encoding=utf-8 |
-            ""\ set guifont=Consolas\ for\ Powerline\ FixedD:b:h11 |
-            ""\ let g:Powerline_symbols="fancy" |
-            ""\ set t_Co=256 |
-            ""\ set laststatus=2 |
-            ""\ highlight ColorColumn ctermbg=235 guibg=#262626 |
-            ""\ highlight SignColumn  ctermfg=235 guifg=#262626
-        "autocmd! BufEnter,BufNewFile *.m,*.r
-            "\ retab |
-            "\ IndentGuidesEnable |
-            "\ call MyConceal()
-            ""\ set gfn=Consolas\ for\ Powerline\ FixedD:b:h11 |
-            ""\ let g:Powerline_symbols="fancy" |
-            ""\ set t_Co=256 |
-            ""\ set laststatus=2 |
-            ""\ highlight ColorColumn ctermbg=235 guibg=#262626
-        "autocmd! BufEnter,BufNewFile *.sh
-            "\ call MyConceal()
-            ""\ colorscheme zmrok |
-            ""\ set gfn=Consolas\ for\ Powerline\ FixedD:b:h11 |
-            ""\ let g:Powerline_symbols="fancy" |
-            ""\ set t_Co=256 |
-            """\ set laststatus=2 |
-            ""\ highlight ColorColumn ctermbg=235 guibg=#262626
-        ""autocmd! BufLeave *.do,*.ado,*.tex,*.f90,*.f95,*.f77,*.sh,*.m
-            ""set wrap |
-            ""set formatoptions+=t
-            ""\ set encoding=utf-8 |
-            ""\ set guifont=Consolas\ for\ Powerline\ FixedD:b:h11 |
-            ""\ let g:Powerline_symbols="fancy" |
-            ""\ set t_Co=256 |
-            ""\ set laststatus=2 |
-            ""\ highlight ColorColumn ctermbg=235 guibg=#262626
-    "augroup END
+        " Startify color settings, put after calling colorscheme, otherwise it will be
+        " overwritten
+        hi StartifyHeader  guifg=#009900 "#66cc66
+        hi StartifyBracket guifg=#878787
+        hi StartifyFile    guifg=#cc9966
+        hi StartifyNumber  guifg=#cc6633
+        hi StartifyPath    guifg=#006699
+        hi StartifySlash   guifg=#666666
+        hi StartifySpecial guifg=#666666
+        hi StartifySection guifg=#b5a771
     "}}}2
-else
-    " ----------------------------------
-    " Terminal version
-    " ----------------------------------
-    "let g:Powerline_symbols="fancy"
-    set laststatus=2
-    set t_Co=256 | colorscheme xoria256
-    "
-    set guitablabel=\[%N\]\ %t\ %M
-    "
-    " Switches block cursor to bar cursor in TMUX window
-    if exists('$TMUX') " allows cursor change in tmux mode
-        let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-        let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    " [7.2] Terminal version {{{2
+    "───────────────────────────────────────────────────────────────────────────
     else
-        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-    endif
-    "if &term =~ '^xterm'
-        "" solid underscore
-        "let &t_SI .= "\<Esc>[4 q"
-        "" solid block
-        "let &t_EI .= "\<Esc>[2 q"
-        "" 1 or 0 -> blinking block
-        "" 2 -> solid block
-        "" 3 -> blinking underscore
-        "" 4 -> solid underscore
-        "" Recent versions of xterm (282 or above) also support
-        "" 5 -> blinking vertical bar
-        "" 6 -> solid vertical bar
-    "endif
-
-    "" changes the cursor shape/color
-    "" in the terminal depending on the mode
-    "" see http://code.google.com/p/iterm2/issues/detail?id=710&q=cursor
-    "function! SetCursorStyle()
-        "if &term =~ "xterm\\|rxvt"
-            "" use a | cursor in insert mode
-            "let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-
-            "" use a rectangle cursor otherwise
-            "let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-
-            "" reset cursor when vim exits
-            "autocmd VimLeave * silent !echo -ne "\<Esc>]50;CursorShape=0\x7"
+        "let g:Powerline_symbols="fancy"
+        set laststatus=2
+        set t_Co=256 | colorscheme xoria256
+        "
+        set guitablabel=\[%N\]\ %t\ %M
+        "
+        " Switches block cursor to bar cursor in TMUX window
+        if exists('$TMUX') " allows cursor change in tmux mode
+            let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+            let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+        else
+            let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+            let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+        endif
+        "if &term =~ '^xterm'
+            "" solid underscore
+            "let &t_SI .= "\<Esc>[4 q"
+            "" solid block
+            "let &t_EI .= "\<Esc>[2 q"
+            "" 1 or 0 -> blinking block
+            "" 2 -> solid block
+            "" 3 -> blinking underscore
+            "" 4 -> solid underscore
+            "" Recent versions of xterm (282 or above) also support
+            "" 5 -> blinking vertical bar
+            "" 6 -> solid vertical bar
         "endif
-    "endfunction
-    "call SetCursorStyle()
 
-endif
+        "" changes the cursor shape/color
+        "" in the terminal depending on the mode
+        "" see http://code.google.com/p/iterm2/issues/detail?id=710&q=cursor
+        "function! SetCursorStyle()
+            "if &term =~ "xterm\\|rxvt"
+                "" use a | cursor in insert mode
+                "let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+
+                "" use a rectangle cursor otherwise
+                "let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
+                "" reset cursor when vim exits
+                "autocmd VimLeave * silent !echo -ne "\<Esc>]50;CursorShape=0\x7"
+            "endif
+        "endfunction
+        "call SetCursorStyle()
+    endif
+    "}}}2
 "}}}1
 " [8] GUI and Terminal configuration {{{1
+"───────────────────────────────────────────────────────────────────────────────
 "Custom Colors"
     hi SignColumn  ctermfg=235 guifg=#202020 guibg=#202020
-    highlight Folded guifg= #C5C5BF guibg=#3C3C59 "#434363
-
-" Startify color settings, put after calling colorscheme, otherwise it will be
-" overwritten
-    hi StartifyHeader  guifg=#009900 "#66cc66
-    hi StartifyBracket guifg=#878787
-    hi StartifyFile    guifg=#cc9966
-    hi StartifyNumber  guifg=#cc6633
-    hi StartifyPath    guifg=#006699
-    hi StartifySlash   guifg=#666666
-    hi StartifySpecial guifg=#666666
-    hi StartifySection guifg=#b5a771
+    hi Folded ctermfg=235 guifg= #C5C5BF guibg=#3C3C59 "#434363
 
 " Text formatting & display
     if v:version>703
-        highlight ColorColumn ctermbg=235 guibg=#262626
+        highlight ColorColumn ctermbg=235 guibg=#1c1c1c
         set colorcolumn=80
     endif
 
-"set colorcolumn=+1          " highlight column after 'textwidth'
-
+    "set colorcolumn=+1          " highlight column after 'textwidth'
 " For indent_guides plug-in (they mark the tabstops in greyscale)
 " Needs to be after colorscheme
     set ts=4 sw=4 et
@@ -825,24 +961,55 @@ endif
     let g:indent_guides_guide_size = 1
 "}}}1
 " [9] Autocommands  {{{1
-    augroup filetype_vim
+"───────────────────────────────────────────────────────────────────────────────
+" [9.1] Insert mode cursorline highlight {{{2
+"───────────────────────────────────────────────────────────────────────────────
+    augroup highlightCursorline
         autocmd!
-        autocmd FileType vim setlocal foldmethod=marker | call MyConceal()
-    augroup END
-
-    augroup filetype_stata
+        autocmd InsertEnter * highlight CursorLine guifg=white guibg=grey40
+                    \ ctermfg=white ctermbg=darkgray
+        autocmd InsertLeave * highlight CursorLine guifg=white guibg=grey25
+                    \ ctermfg=white ctermbg=238
+    augroup END "}}}2
+" [9.2] Set the syntax for files that are not immediately recognized {{{2
+"───────────────────────────────────────────────────────────────────────────────
+    augroup setFiletype
         autocmd!
-        autocmd FileType stata setlocal foldmethod=marker | call MyConceal() |
-                    \ setlocal textwidth=0 | setlocal nowrap
-    augroup END
-
-    augroup filetype_fortran
+        autocmd BufRead,BufNewFile *.md set filetype=markdown | call MyConceal()
+        autocmd BufRead,BufNewFile *.Pnw set filetype=pweave | call MyConceal()
+        autocmd BufRead,BufNewFile *.rdf set filetype=redif | call MyConceal()
+        autocmd BufRead,BufNewFile *.mod set filetype=dynare | call MyConceal()
+        autocmd BufRead,BufNewFile *.jl set filetype=julia | call MyConceal()
+        autocmd BufRead,BufNewFile *.log set filetype=log
+        autocmd BufRead,BufNewFile *.g set filetype=gauss | call MyConceal()
+    augroup END "}}}2
+    augroup filetype_vim "{{{2
         autocmd!
-        autocmd FileType fortran setlocal foldmethod=marker | call MyConceal() |
-                    \ let b:match_words.=',(:)'
-    augroup END
-
-    augroup filetype_latex
+        autocmd FileType vim setlocal foldmethod=marker |
+                \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+        autocmd BufEnter *.vimrc setlocal foldmethod=marker |
+                \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+    augroup END "}}}2
+    augroup filetype_stata {{{2
+        autocmd!
+        autocmd FileType stata setlocal foldmethod=marker |
+                    \ setlocal textwidth=0 | setlocal nowrap |
+                    \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#4682B4
+        autocmd BufRead,BufEnter *.do setlocal foldmethod=marker |
+                    \ setlocal textwidth=0 | setlocal nowrap |
+                    \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#4682B4
+    augroup END "}}}2
+    augroup filetype_fortran {{{2
+        autocmd!
+        autocmd FileType fortran setlocal foldmethod=marker |
+                    \ let b:match_words.=',(:)' |
+                    \ let fortran_free_source = 1 |
+                    \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+        autocmd BufRead,Bufenter *.f,*f90 setlocal foldmethod=marker |
+                    \ let fortran_free_source = 1 |
+                    \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+    augroup END "}}}2
+    augroup filetype_latex {{{2
         autocmd!
         "autocmd FileType latex let b:match_words.=',(:)'
         " This savs the .tex file before it compiles it
@@ -850,56 +1017,194 @@ endif
             \ call Tex_MakeMap('<leader>ll', ':update!<CR>:call Tex_RunLaTeX()<CR>', 'n', '<buffer>')
         autocmd FileType tex
             \ call Tex_MakeMap('<leader>ll', '<ESC>:update!<CR>:call Tex_RunLaTeX()<CR>', 'v', '<buffer>')
-    augroup END
-
-    augroup filetype_log
-        autocmd FileType log setlocal autoread
-    augroup END
-
-    augroup filetype_R
+        autocmd FileType tex
+                    \ set spell spelllang=en_us |
+                    \ set foldtext=NeatFoldText() |
+                    \ syntax spell toplevel |
+                    \ set iskeyword+=: |
+                    \ if hostname()=="BR962" |
+                            \ set guifont=Consolas\ for\ Powerline\ FixedD:b:h13 |
+                            \ endif |
+                    \ if hostname()=="JJUNG-PC" |
+                            \ set guifont=Consolas\ for\ Powerline\ FixedD:b:h10 |
+                            \ endif |
+                    \ colorscheme peachpuff |
+                    \ set showtabline=1 |
+                    \ set linespace=1 |
+                    \ set lines=999 |
+                    \ winpos 0 30
+                    "\ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+    augroup END "}}}2
+    augroup filetype_log {{{2
+        autocmd FileType log setlocal autoread |
+                    \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+    augroup END "}}}2
+    augroup filetype_R {{{2
         autocmd!
-        autocmd FileType r setlocal foldmethod=marker | call MyConceal()
-    augroup END
-
-    augroup filetype_python
+        autocmd FileType r setlocal foldmethod=marker |
+                    \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+        autocmd BufRead, BufEnter *.r setlocal foldmethod=marker |
+                    \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+    augroup END "}}}2
+    augroup filetype_python {{{2
         autocmd!
-        autocmd FileType python setlocal foldmethod=marker | call MyConceal()
-    augroup END
-
-    augroup filetype_matlab
+        autocmd FileType python setlocal foldmethod=marker |
+                    \ set foldtext=NeatFoldText() |
+                    \ set nospell |
+                    \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#4682B4
+        autocmd BufEnter *.py setlocal foldmethod=marker |
+                    \ set foldtext=NeatFoldText() |
+                    \ set nospell |
+                    \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#4682B4
+    augroup END "}}}2
+    augroup filetype_matlab {{{2
         autocmd!
         autocmd FileType matlab setlocal foldmethod=marker |
                     \ setlocal commentstring=%%s |
-                    \ call MyConceal()
-    augroup END
+                    \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+        autocmd BufRead,BufEnter *.m setlocal foldmethod=marker |
+                    \ setlocal commentstring=%%s |
+                    \ call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+    augroup END "}}}2
+    augroup filetype_rst {{{2
+        au!
+        " Headings
+        au FileType rst nnoremap <leader>h1 ^yypv$r=o<cr><esc>
+        au FileType rst inoremap <leader>h1 <esc>^yypv$r=o<cr>
 
-" Set the syntax for files that are not immediately recognized
-    augroup setFiletype
-        autocmd!
-        autocmd BufRead,BufNewFile *.md set filetype=markdown | call MyConceal()
-        autocmd BufRead,BufNewFile *.rdf set filetype=redif | call MyConceal()
-        autocmd BufRead,BufNewFile *.mod set filetype=dynare | call MyConceal()
-        autocmd BufRead,BufNewFile *.jl set filetype=julia | call MyConceal()
-        autocmd BufRead,BufNewFile *.log set filetype=log
-    augroup END
+        au FileType rst nnoremap <leader>h2 ^yypv$r-o<cr><cr><cr><cr><cr><cr><esc>kkkk
+        au FileType rst inoremap <leader>h2 <esc>^yypv$r-o<cr><cr><cr><cr><cr><cr><esc>kkkki
 
-" Deal with whitespace and tabs on saving
+        au FileType rst nnoremap <leader>h3 ^yypv$r+o<cr><cr><cr><cr><cr><cr><esc>kkkk
+        au FileType rst inoremap <leader>h3 <esc>^yypv$r+o<cr><cr><cr><cr><cr><cr><esc>kkkki
+
+        au FileType rst nnoremap <leader>h4 ^yypv$r~o<cr><cr><cr><cr><cr><cr><esc>kkkk
+        au FileType rst inoremap <leader>h4 <esc>^yypv$r~o<cr><cr><cr><cr><cr><cr><esc>kkkki
+
+        au FileType rst nnoremap <leader>h5 ^yypv$r*o<cr><cr><cr><cr><cr><cr><esc>kkkk
+        au FileType rst inoremap <leader>h5 <esc>^yypv$r*o<cr><cr><cr><cr><cr><cr><esc>kkkki
+        """Make Link (ml)
+        " Highlight a word or phrase and it creates a link and opens a split so
+        " you can edit the url separately. Once you are done editing the link,
+        " simply close that split.
+        au FileType rst vnoremap <leader>ml yi`<esc>gvvlli`_<esc>:vsplit<cr><C-W>l:$<cr>o<cr>.. _<esc>pA: http://TODO<esc>vb
+        """Make footnote (ml)
+        au FileType rst iabbrev mfn [#]_<esc>:vsplit<cr><C-W>l:$<cr>o<cr>.. [#] TODO
+        au FileType rst set spell
+        "Create image
+        au FileType rst iabbrev iii .. image:: TODO.png<cr>    :scale: 100<cr>:align: center<cr><esc>kkkeel
+        "Create figure
+        "au FileType rst iabbrev iif .. figure:: TODO.png<cr>    :scale: 100<cr>:align: center<cr>:alt: TODO<cr><cr><cr>Some brief description<esc>kkkeel
+
+        "Create note
+        au FileType rst iabbrev nnn .. note::
+        "Create math
+        au FileType rst iabbrev mmm :math:``
+        "Start or end bold text inline
+        au FileType rst inoremap <leader>bb **
+        "Start or end italicized text inline
+        au FileType rst inoremap <leader>ii *
+        "Start or end preformatted text inline
+        au FileType rst inoremap <leader>pf ``
+
+        " Fold settings
+        "au FileType rst set foldmethod=marker
+        "
+        " Admonitions
+        au FileType rst iabbrev adw .. warning::
+        au FileType rst iabbrev adn .. note::
+    augroup END "}}}2
+    augroup filetype_pweave {{{2
+        au!
+
+        "Create math
+        au FileType pweave inoremap <leader>mmm :math:
+        au FileType pweave nnoremap <leader>mmm i:math:
+        au FileType pweave vnoremap <leader>mmm S)i:math:<ESC>f`
+
+        "au FileType pweave nnoremap <F12> :call MakePweave2Html()<cr>
+        au FileType pweave nnoremap <leader>ll :call MakePweave2HtmlSilent()<cr>
+        au FileType pweave nnoremap <leader>lll :call MakePweave2Html()<cr>
+
+        " Insert python codeblock
+        au FileType pweave nnoremap <leader>pp i<<>>= <cr><cr>@<ESC>ki
+
+        au FileType pweave nnoremap <leader>ppp i<<>>= <cr>
+                    \from __future__ import print_function<cr>
+                    \import numpy as np<cr><cr>@<ESC>ki
+
+        au FileType pweave nnoremap <leader>ff i<<fig = True, width = '12 cm'>>=
+                    \<cr><cr>@<ESC>ki
+
+        " Headings
+        au FileType pweave nnoremap <leader>h1 ^yypv$r=o<cr><esc>
+        au FileType pweave inoremap <leader>h1 <esc>^yypv$r=o<cr>
+
+        au FileType pweave nnoremap <leader>h2 ^yypv$r-o<cr><esc>
+        au FileType pweave inoremap <leader>h2 <esc>^yypv$r-o<cr>
+
+        au FileType pweave nnoremap <leader>h3 ^yypv$r+o<cr><esc>
+        au FileType pweave inoremap <leader>h3 <esc>^yypv$r+o<cr>
+
+        au FileType pweave nnoremap <leader>h4 ^yypv$r~o<cr><esc>
+        au FileType pweave inoremap <leader>h4 <esc>^yypv$r~o<cr>
+
+        au FileType pweave nnoremap <leader>h5 ^yypv$r*o<cr><esc>
+        au FileType pweave inoremap <leader>h5 <esc>^yypv$r*o<cr>
+        """Make Link (ml)
+        " Highlight a word or phrase and it creates a link and opens a split so
+        " you can edit the url separately. Once you are done editing the link,
+        " simply close that split.
+        au FileType pweave vnoremap <leader>ml yi`<esc>gvvlli`_<esc>:vsplit<cr><C-W>l:$<cr>o<cr>.. _<esc>pA: http://TODO<esc>vb
+        """Make footnote (ml)
+        au FileType pweave iabbrev mfn [#]_<esc>:vsplit<cr><C-W>l:$<cr>o<cr>.. [#] TODO
+        au FileType pweave set spell
+        "Create image
+        au FileType pweave iabbrev iii .. image:: TODO.png<cr>    :scale: 100<cr>:align: center<cr><esc>kkkeel
+        "Create figure
+        "au FileType pweave iabbrev iif .. figure:: TODO.png<cr>    :scale: 100<cr>:align: center<cr>:alt: TODO<cr><cr><cr>Some brief description<esc>kkkeel
+
+        "Create note
+        au FileType pweave iabbrev nnn .. note::
+
+        "Start or end bold text inline
+        au FileType pweave inoremap <leader>bb **
+        "Start or end italicized text inline
+        au FileType pweave inoremap <leader>ii *
+        "Start or end preformatted text inline
+        au FileType pweave inoremap <leader>pf ``
+
+        " Fold settings
+        "au FileType pweave set foldmethod=marker
+        "
+        " Admonitions
+        au FileType pweave iabbrev adw .. warning::
+        au FileType pweave iabbrev adn .. note::
+    augroup END "}}}2
+" [9.3] Deal with whitespace and tabs on saving {{{2
+"───────────────────────────────────────────────────────────────────────────────
     augroup treatWhite
         autocmd!
         autocmd BufWritePre *.py,*.m,*.vimrc,*f90 :%s/\s\+$//e | retab
-    augroup END
-
-" Insert mode highlight
-    augroup highlightCursorline
-        autocmd!
-        autocmd InsertEnter * highlight CursorLine guifg=white guibg=grey40
-                    \ ctermfg=white ctermbg=darkgray
-        autocmd InsertLeave * highlight CursorLine guifg=white guibg=grey25
-                    \ ctermfg=white ctermbg=238
-    augroup END
+    augroup END "}}}2
+" [9.4] Turn on conceal feature by filetype when sourcing .vimrc file {{{2
+"───────────────────────────────────────────────────────────────────────────────
+    if &filetype == 'vim'
+        call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+    elseif &filetype =='fortran'
+        call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+    elseif &filetype =='matlab'
+        call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+    elseif &filetype =='python'
+        call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#4682B4
+    elseif &filetype =='latex'
+        call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+    elseif &filetype =='stata'
+        call MyConceal() | highlight Conceal guibg=#2e2e2e guifg=#008000
+    endif "}}}2
 "}}}1
-"                                                                              "
 " [10] User key bindings {{{1
+"───────────────────────────────────────────────────────────────────────────────
 " Quickly get out of insert mode without your fingers having to leave the
 " home row (either use 'jj' or 'jk')
     inoremap jk <Esc>
@@ -941,14 +1246,16 @@ endif
     nnoremap <silent><A-k> :set paste<CR>m`O<Esc>``:set nopaste<CR>
 
 " Edit the vimrc file
-    nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
-    nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
+    "nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
+    "nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
+    nnoremap <silent> <leader>ev :e C:\Dropbox\dotfiles\.vimrc<CR>
+    nnoremap <silent> <leader>sv :so C:\Dropbox\dotfiles\.vimrc<CR>
 
 " Clears the search register
     nnoremap <silent> <leader>/ :nohlsearch<CR>
 
 " Pull word under cursor into LHS of a substitute (for quick search/replace)
-    nnoremap <leader>z :%s/\<<C-r>=expand("<cword>")<CR>\>/
+    nnoremap <leader>z :%s/<C-r>=expand("<cword>")<CR>/
 
 " Pull selection into LHS of a substitute (for quick search/replace)
     vnoremap <leader>z y:%s/\<<C-r>=expand("<C-r>0")<CR>\>/
@@ -989,7 +1296,9 @@ endif
     nnoremap <leader>lll :g/\\input{tcilatex}/d<CR><Esc>:w<CR><Esc>
     nnoremap <leader>rr :%s/\d\+\.\d\+/\=printf('%.2f',str2float(submatch(0)))/g<CR>
 "}}}1
+
 " [11] Windows, tabs and buffer keybindings {{{1
+"───────────────────────────────────────────────────────────────────────────────
 " Moving tabs around with CRTL+Shift left/right
     inoremap <silent> <C-S-Left>  <C-r>=TabLeft()<CR>
     inoremap <silent> <C-S-Right>  <C-r>=TabRight()<CR>
@@ -1025,10 +1334,12 @@ endif
     noremap <leader>h <C-W>h
 "}}}1
 " [12] Plugin Shortcuts {{{1
-" Buffer only {{{2
+"───────────────────────────────────────────────────────────────────────────────
+" [12.1] Buffer only {{{2
     nnoremap <leader>woo :BufOnly<CR>
 "}}}2
-" NERDTree settings {{{2
+" [12.2] NERDTree settings {{{2
+"───────────────────────────────────────────────────────────────────────────────
     "Put focus to the NERD Tree with F3 (tricked by quickly closing it and
     "immediately showing it again, since there is no :NERDTreeFocus command)
     "nnoremap <leader>n :NERDTreeClose<CR>:NERDTreeToggle<CR>:set columns=120<CR>:winpos 0 30<CR>
@@ -1037,14 +1348,16 @@ endif
     nnoremap <leader>n :NERDTreeClose<CR>:NERDTreeToggle<CR>
     nnoremap <leader>nn :NERDTreeClose<CR>
 "}}}2
-" Voom settings {{{2
+" [12.3] Voom settings {{{2
+"───────────────────────────────────────────────────────────────────────────────
     "nnoremap <leader>v :Voom latex<CR>:set columns=120<CR>:winpos 0 30<CR>
     "nnoremap <leader>vv :Voomquit<CR>:set columns=90<CR>:winpos 0 30<CR>
     nnoremap <leader>v :Voom latex<CR>
     nnoremap <leader>fv :Voom<CR>
     nnoremap <leader>vv :Voomquit<CR>
 "}}}2
-" Tabularize {{{2
+" [12.4] Tabularize {{{2
+"───────────────────────────────────────────────────────────────────────────────
     "nnoremap <Leader>t= :Tabularize /=<CR>
     vnoremap <Leader>t= :Tabularize /=<CR>
     nnoremap <Leader>t: :Tabularize /:<CR>
@@ -1057,18 +1370,22 @@ endif
     nnoremap <Leader>t<Bar> :Tabularize /<Bar><CR>
     vnoremap <Leader>t<Bar> :Tabularize /<Bar><CR>
 "}}}2
-" Rainbow Parenthesis {{{2
+" [12.5] Rainbow Parenthesis {{{2
+"───────────────────────────────────────────────────────────────────────────────
 " Toggle it on/off
-    nnoremap <leader>R :RainbowParenthesesToggle<CR>
+    nnoremap <leader>R :RainbowToggle<CR>
 "}}}2
-" Thesaurus {{{2
+" [12.6] Thesaurus {{{2
+"───────────────────────────────────────────────────────────────────────────────
     let g:online_thesaurus_map_keys = 0
     nnoremap <leader>k :OnlineThesaurusLookup<CR>
 "}}}2
-" Powerline color scheme {{{2
+" [12.7] Powerline color scheme {{{2
+"───────────────────────────────────────────────────────────────────────────────
     "let g:Powerline_colorscheme='solarized256_dark'
 "}}}2
-" Vim vertigo {{{2
+" [12.8] Vim vertigo {{{2
+"───────────────────────────────────────────────────────────────────────────────
     nnoremap <silent> <Space>j :<C-U>VertigoDown n<CR>
     vnoremap <silent> <Space>j :<C-U>VertigoDown v<CR>
     onoremap <silent> <Space>j :<C-U>VertigoDown o<CR>
@@ -1076,67 +1393,71 @@ endif
     vnoremap <silent> <Space>k :<C-U>VertigoUp v<CR>
     onoremap <silent> <Space>k :<C-U>VertigoUp o<CR>
 "}}}2
-" Crunch {{{2
+" [12.9] Crunch {{{2
+"───────────────────────────────────────────────────────────────────────────────
     map <silent> <plug>NoCrunchEvalLine <plug>CrunchEvalLine
     map <silent> <plug>NoCrunchEvalBlock <plug>CrunchEvalBlock
     map <silent> <leader>== <plug>CrunchEvalLineExc
 "}}}2
-" Utl jumping {{{2
+" [12.10] Utl jumping {{{2
+"───────────────────────────────────────────────────────────────────────────────
     " Initiate jump, then use CTRL+o and CTRL+i to jump back and forth
     nnoremap <silent> <leader>o :Utl<CR>
 "}}}2
-" Unite {{{2
-    let g:unite_source_history_yank_enable = 1
-    let g:unite_data_directory='~/.vim/.cache/unite'
-    let g:unite_source_rec_max_cache_files=5000
-    let g:unite_enable_start_insert = 1
-    let g:unite_split_rule = "botright"
-    let g:unite_force_overwrite_statusline = 0
-    let g:unite_winheight = 10
+"" [12.11] Unite {{{2
+""───────────────────────────────────────────────────────────────────────────────
+"    let g:unite_source_history_yank_enable = 1
+"    let g:unite_data_directory='~/.vim/.cache/unite'
+"    let g:unite_source_rec_max_cache_files=5000
+"    let g:unite_enable_start_insert = 1
+"    let g:unite_split_rule = "botright"
+"    let g:unite_force_overwrite_statusline = 0
+"    let g:unite_winheight = 10
 
-    call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-        \ 'ignore_pattern', join([
-        \ '\.git/',
-        \ 'git5/.*/review/',
-        \ 'google/obj/',
-        \ ], '\|'))
+"    call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+"        \ 'ignore_pattern', join([
+"        \ '\.git/',
+"        \ 'git5/.*/review/',
+"        \ 'google/obj/',
+"        \ ], '\|'))
 
-    " Use the fuzzy matcher for everything
-    call unite#filters#matcher_default#use(['matcher_fuzzy'])
+"    " Use the fuzzy matcher for everything
+"    call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
-    " Use the rank sorter for everything
-    call unite#filters#sorter_default#use(['sorter_rank'])
+"    " Use the rank sorter for everything
+"    call unite#filters#sorter_default#use(['sorter_rank'])
 
-    " Browse open buffers
-    nnoremap <Leader>b :Unite -buffer-name=buffers -winheight=10 buffer<cr>
+"    " Browse open buffers
+"    nnoremap <Leader>b :Unite -buffer-name=buffers -winheight=10 buffer<cr>
 
-    " Browse recently edited files
-    nnoremap <silent> <Leader>m :Unite -buffer-name=recent -winheight=10 file_mru<cr>
+"    " Browse recently edited files
+"    nnoremap <silent> <Leader>m :Unite -buffer-name=recent -winheight=10 file_mru<cr>
 
-    " Browse recursive list of all the files under the current working
-    " directory (CTRL-P functionvim)
-    nnoremap <leader>f :Unite file_rec/async<cr>
+"    " Browse recursive list of all the files under the current working
+"    " directory (CTRL-P functionvim)
+"    nnoremap <leader>f :Unite file_rec/async<cr>
 
-    nnoremap <space>/ :Unite grep:.<cr>
-    nnoremap <space>y :Unite history/yank<cr>
-    nnoremap <silent> <space>p :Unite -start-insert buffer<CR>
-    nnoremap <C-h> :Unite -start-insert help<CR>
+"    nnoremap <space>/ :Unite grep:.<cr>
+"    nnoremap <space>y :Unite history/yank<cr>
+"    nnoremap <silent> <space>p :Unite -start-insert buffer<CR>
+"    nnoremap <C-h> :Unite -start-insert help<CR>
 
-    autocmd FileType unite call s:unite_settings()
+"    autocmd FileType unite call s:unite_settings()
 
-    function! s:unite_settings()
-        let b:SuperTabDisabled=1
-        "imap <buffer> <C-j> <NOP>
-        imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-        imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-        imap <silent><buffer><expr> <C-x> unite#do_action('split')
-        imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-        imap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
-        nmap <buffer> <ESC> <Plug>(unite_exit)
-    endfunction
-"}}}2
+"    function! s:unite_settings()
+"        let b:SuperTabDisabled=1
+"        "imap <buffer> <C-j> <NOP>
+"        imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+"        imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+"        imap <silent><buffer><expr> <C-x> unite#do_action('split')
+"        imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+"        imap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
+"        nmap <buffer> <ESC> <Plug>(unite_exit)
+"    endfunction
+""}}}2
 "}}}1
 " [13] Function keys {{{1
+"───────────────────────────────────────────────────────────────────────────────
 " ctrl + F1: toggle menue bar
     nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
 
@@ -1172,7 +1493,8 @@ endif
     let notabs = 1
     nnoremap <silent> <F8> :let notabs=!notabs<Bar>:if notabs<Bar>
         \ :tabo<Bar>:else<Bar>:tab ball<Bar>:tabn<Bar>:endif<CR>
-        \ :set lines=999<CR>:winpos 0 30<CR>
+        \ :set lines=999<CR>:call SetWinPos()<CR>
+        "\ :set lines=999<CR>:winpos getwinposx() 30<CR>
 
 " F9: remove ^M symbols
     nnoremap <F9> :call RemoveM()<cr>
@@ -1182,7 +1504,7 @@ endif
     inoremap <F10> <C-R>=strftime("%m/%d/%Y - %I:%M %p")<CR>
 
 " F11: start ipython in current     dir
-    nnoremap <F11> :silent !start ipython<CR>
+    nnoremap <F11> :silent !start ipython --profile=juergen<CR>
     inoremap <F11> <Esc>:silent !start ipython<CR>
 
 " Shift F11: start ipython notebook in current dir
@@ -1191,14 +1513,29 @@ endif
     inoremap <S-F11> <Esc>:silent !start ipython notebook<CR>
 
 "}}}1
-" [14] My macros and abbreviations {{{1
+" [14] User Ex-commands {{{1
+"───────────────────────────────────────────────────────────────────────────────
+" Save a file
+command W w
+
+" [15] My macros and abbreviations {{{1
+"───────────────────────────────────────────────────────────────────────────────
 " [1] Put dollar signs around selection
 let @1 = 'xi$pa$'
 
 " [2] Macro to put \hline into .tex tables
-let @a = 'ggjjjyyjpjjpjjjjpjjjjjpjjjjjjpjjjpjpjjjpjpjpddjjpjpjjjpjjjjpjjjjpjjjjztkkkjjpjpjjjjjkkkpjjjjjjpjpjjpjjjpjjjjpgg'
+
+" mat2tex.py uses \bottomline
+let @a = 'ggjjjjo\hlineyyjjpjjjjpjjjjjpjjjjjjpjjjpjpjjjpjpjpddjjpjpjjjpjjjjpjjjjpjjjjztkkkjjpjpjjjjjkkkpjjjjjjpjpjjpjjjpjjjjp4jp4jpgg'
+
+" Mat2Tex.m file uses \hline
+let @b = 'ggjjjyyjpjjpjjjjpjjjjjpjjjjjjpjjjpjpjjjpjpjpddjjpjpjjjpjjjjpjjjjpjjjjztkkkjjpjpjjjjjkkkpjjjjjjpjpjjpjjjpjjjjpgg'
+
 " [3] Macro shorten table
-let @b = 'gg5j3dd2jddjddkddjddkddjjdd3j8ddj2ddji+ji+ji+jddjj2dd:295ddddjjddjjjddj10dd10dd5dddd:18dd3kkp5dd:4p:323dd:9p:2015dd:12p:192dd:32p'
+let @c = 'gg5j3dd2jddjddkddjddkddjjdd3j8ddj2ddji+ji+ji+jddjj2dd:295ddddjjddjjjddj10dd10dd5dddd:18dd3kkp5dd:4p:323dd:9p:2015dd:12p:192dd:32p'
+
+" CMS report tables horizontal lines
+let @e = 'ggjjjjo\hlineyyjjpjjjjpjpjjjjpjjjjjjpjjjjjpjjjjjpjjjjpjpjjjpjjpjjjpjpjjjpjjpjjjjjjjpjjjjpjjjpjpjjjkpjjjjjjpjpjjpjjjpjjpjjjjjpjjjjpjjjjp'
 
 " [3] Macros to reduce table
 " --------------------------
@@ -1206,17 +1543,15 @@ let @b = 'gg5j3dd2jddjddkddjddkddjjdd3j8ddj2ddji+ji+ji+jddjj2dd:295ddddjjddj
     " Short
     "let @b = 'gg6j3ddj5ddjjdd2j8dd2j2dd6j2dd9j6dd2jdd3j27ddgg11jEElvEEExhxeea:10j5j0eeelveeeeexeea:lveeelxgg4j6ddGkpjdd10k3k2ddGkp10k10k2dd5kpjdd5k3dd5jpdd8j4j3dd8k5kp2jyy3jkp'
     " 2 columns
-    let @c = 'ggvG,ttgg3jkeeeeEe25jjjj9l3l2lxeeeeeeeeeheeeeEEEEEEEEEE30jkkxgg20jdd5jjddkkkyyjpggjjEla\textbf{lxEEa}eev7ec\textbf{[2la ACA:save! TableACAAToffShort2Cols.tex'
+    let @d = 'ggvG,ttgg3jkeeeeEe25jjjj9l3l2lxeeeeeeeeeheeeeEEEEEEEEEE30jkkxgg20jdd5jjddkkkyyjpggjjEla\textbf{lxEEa}eev7ec\textbf{[2la ACA:save! TableACAAToffShort2Cols.tex'
 
 " Round to 2 digits
 "%s/\d\+\.\d\+/\=printf('%.2f',str2float(submatch(0)))/g
 
+" Change words to upper case
+":%s/\v^\a|\:\s\a|<%(in>|the>|at>|with>|a>|and>|for>|of>|on>|from>|to>|an>|pdf>|http>|papers>|science>|or>|s>|jjung>|by>)@!\a/\U&/gc
 " Abbreviations
 " -------------
     :abbrev hte the
     :iabbrev hte the
-"}}}1
-" [2] Put Fold markers {{{1
-let @w = '$a {{{1lxxx'
-let @e = '0i!}}}1'
 "}}}1
