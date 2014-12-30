@@ -25,7 +25,7 @@ if has('vim_starting')
         " across (heterogeneous) systems easier.
         "set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
         "-------------------------------------"
-        " NeoBundle setup 
+        " NeoBundle setup
         set rtp+=C:\Dropbox\Programs\Vim\vimfiles\bundle\neobundle.vim
         call neobundle#rc('C:\Dropbox\Programs\Vim\vimfiles\bundle\')
         "call neobundle#rc(expand('~/.vim/bundle/'))
@@ -46,7 +46,7 @@ if has('vim_starting')
         "mklink  C:\Users\LatishSehgal\.vimrc.bundles C:\Dropbox\dotfiles\.vimrc.bundles
         "mklink  C:\Users\LatishSehgal\.vim C:\Dropbox\dotfiles\.vim
     else
-        " NeoBundle setup 
+        " NeoBundle setup
         set rtp+=~/.vim/bundle/neobundle.vim/
         call neobundle#rc(expand('~/.vim/bundle/'))
         "call neobundle#rc()
@@ -66,7 +66,7 @@ endif
 " -----------------------------------------------------------------------------
 " Active plugins {{{2
 " ------------------------------------------- "
-" NeoBundle Setup: Let NeoBundle manage NeoBundle
+" NeoBundle Setup: Let NeoBundle manage NeoBundle {{{3
 NeoBundleFetch 'Shougo/neobundle.vim'
 " [.] Vundle Setup
 " let Vundle manage Vundle - required!
@@ -84,16 +84,17 @@ NeoBundle 'Shougo/vimproc', {
   \    },
   \ }
 NeoBundle 'Shougo/unite.vim'
-" ------------------------------------------ "
+" ------------------------------------------}}}3
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Lokaltog/vim-powerline'
 "NeoBundle 'bling/vim-airline'
 NeoBundle 'mhinz/vim-startify'
 NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-dispatch.git'
 NeoBundle 'msanders/snipmate.vim'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'mattn/emmet-vim'
 NeoBundle 'kshenoy/vim-signature'
@@ -101,19 +102,18 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'kien/rainbow_parentheses.vim'
-NeoBundle 'jlanzarotta/bufexplorer'
-NeoBundle 'JuliaLang/julia-vim'
 NeoBundle 'arecarn/crunch'
 NeoBundle 'utl.vim'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'gcmt/wildfire.vim'
 NeoBundle 'triglav/vim-visual-increment'
 NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'sjl/gundo.vim'
 " ------------------------------------------- "
 " vim-scripts repos
 " ------------------------------------------- "
 NeoBundle 'vim-scripts/vimwiki.git'
-NeoBundle 'vim-scripts/taglist.vim'
+NeoBundle 'majutsushi/tagbar'
 NeoBundle 'vim-scripts/kwbdi.vim'
 NeoBundle 'vim-scripts/VOoM'
 NeoBundle 'vim-scripts/Auto-Pairs'
@@ -124,35 +124,51 @@ NeoBundle 'vim-scripts/BufOnly.vim'
 if v:version>703
     NeoBundle 'airblade/vim-gitgutter'
     NeoBundle 'myusuf3/numbers.vim'
+    NeoBundle 'pydave/AsyncCommand'
+    NeoBundle 'tomtom/checksyntax_vim'
+    NeoBundle 'tomasr/molokai'
+    NeoBundle 'vim-scripts/Wombat'
 endif
 
 " ------------------------------------------- "
 " Lazy loading
 " ------------------------------------------- "
-"NeoBundle 'jcf/vim-latex'
-"NeoBundle 'matze/vim-tex-fold'
-"NeoBundle 'andviro/flake8-vim'
-"NeoBundle 'jcfaria/Vim-R-plugin'
-"NeoBundleLazy 'andviro/flake8-vim'
-"autocmd FileType python NeoBundleSource flake8-vim
 NeoBundleLazy 'klen/python-mode'
-autocmd FileType python NeoBundleSource python-mode
+    autocmd FileType python NeoBundleSource python-mode
 NeoBundleLazy 'jcfaria/Vim-R-plugin'
-autocmd FileType r NeoBundleSource Vim-R-plugin
-"NeoBundleLazy 'jcf/vim-latex'
-"NeoBundle 'sourceforge.net/p/vim-latex/vim-latex'
-NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
-autocmd FileType tex,latex NeoBundleSource vim-latex
-NeoBundleLazy 'matze/vim-tex-fold'
-autocmd FileType tex,latex NeoBundleSource vim-tex-fold
+    autocmd FileType r NeoBundleSource Vim-R-plugin
+NeoBundleLazy 'JuliaLang/julia-vim'
+    autocmd FileType julia NeoBundleSource julia-vim
+" Latex modules
+if v:version>703
+    "NeoBundleLazy 'jcf/vim-latex'
+    "NeoBundle 'sourceforge.net/p/vim-latex/vim-latex'
+    NeoBundleLazy 'git://git.code.sf.net/p/vim-latex/vim-latex'
+        autocmd FileType tex,latex NeoBundleSource vim-latex
+    NeoBundleLazy 'matze/vim-tex-fold'
+        autocmd FileType tex,latex NeoBundleSource vim-tex-fold
+else
+    NeoBundleLazy 'jcf/vim-latex'
+        autocmd FileType tex,latex NeoBundleSource vim-latex
+    "NeoBundle 'sourceforge.net/p/vim-latex/vim-latex'
+    "NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
+    NeoBundleLazy 'matze/vim-tex-fold'
+        autocmd FileType tex,latex NeoBundleSource vim-tex-fold
+endif
 "}}}2
 " Not currently used plugins {{{2
 " ------------------------------------------- "
+"NeoBundle 'jlanzarotta/bufexplorer'
+"NeoBundle 'vim-scripts/taglist.vim'
+"NeoBundle 'andviro/flake8-vim'
+    "autocmd FileType python NeoBundleSource flake8-vim
+"NeoBundle 'scrooloose/syntastic'
 "NeoBundle 'vim-scripts/mru.vim'
 "NeoBundle 'kien/ctrlp.vim'
+"NeoBundle 'xolox/vim-session'
 "Bundle 'dockyard/vim-easydir'
 "Bundle 'bling/vim-airline'
-"Bundle 'noah/vim256-color' 
+"Bundle 'noah/vim256-color'
 "Bundle 'vim-scripts/matchit.zip'
 "Bundle 'rstacruz/sparkup'
 "Bundle 'vim-scripts/L9'
@@ -181,7 +197,6 @@ autocmd FileType tex,latex NeoBundleSource vim-tex-fold
 "Bundle 'Twinside/vim-codeoverview'
 "Bundle 'vim-scripts/FuzzyFinder'
 "Bundle 'vim-scripts/Bookmarking'
-"NeoBundle 'xolox/vim-session'
 " ------------------------------------------- "
 " non github repos
 " ------------------------------------------- "
@@ -190,7 +205,7 @@ autocmd FileType tex,latex NeoBundleSource vim-tex-fold
 "Bundle 'hicursorwords'
 " Can't load rubygems for some reason
 " }}}2
-" allow plugins by file type
+" Allow plugins by file type {{{2
 filetype plugin on
 filetype indent on
 " Brief help
@@ -200,6 +215,7 @@ filetype indent on
 " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
+"}}}2
 "}}}1
 " [3] Plugin options {{{1
 " Tasklist {{{2
@@ -305,7 +321,7 @@ filetype indent on
     "s = conceal superscripts/subscripts
     " ----
     "  Folding
-    let g:Tex_FoldedEnvironments="frame"   
+    let g:Tex_FoldedEnvironments="frame"
 
     " TIP: if you write your \label's as \label{fig:something}, then if you
     " type in \ref{fig: and press <C-n> you will automatically cycle through
@@ -339,7 +355,7 @@ filetype indent on
     else
         let g:startify_session_dir    = 'C:\Dropbox\Programs\Vim\sessions'
     endif
-    
+
     let g:startify_bookmarks      = [ '~/.vimrc' ]
     let g:startify_show_sessions  = 1
     let g:startify_change_to_dir  = 1
@@ -383,32 +399,44 @@ filetype indent on
         "}}}2
 " Vim Languagetool - grammar check {{{2
     if has('win32') || has('win64')
-        let g:languagetool_jar='C:/Programs/LanguageTool-2.2/languagetool-commandline.jar' 
+        let g:languagetool_jar='C:/Programs/LanguageTool-2.2/languagetool-commandline.jar'
     endif
     "}}}2
 " Turn on supertab for autocompletion with omnicompletion {{{2
     let g:SuperTabDefaultCompletionType="<C-X><C-O>"
     let g:SuperTabDefaultCompletionType="context"
     "}}}2
-" Taglist plugin {{{2
+" Tagbar plugin {{{2
     if has('win32') || has('win64')
         let g:tagbar_ctags_bin='C:/Programs/ctags58/ctags.exe'
+        let g:tagbar_iconchars = ['▸', '▾']
+        "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
     endif
     let g:tagbar_width=30
+        "}}}2
+" Vim Languagetool - grammar check {{{2
+    if has('win32') || has('win64')
+        let g:languagetool_jar='C:/Programs/LanguageTool-2.2/languagetool-commandline.jar'
+    endif
+    "}}}2
+" Turn on supertab for autocompletion with omnicompletion {{{2
+    let g:SuperTabDefaultCompletionType="<C-X><C-O>"
+    let g:SuperTabDefaultCompletionType="context"
+    "}}}2
     "}}}2
 "" Vim session {{{2
     "" Vim session directory
     "if hostname()=="econ01"
-        "let g:session_directory='~/.sessions'
+       "let g:session_directory='~/.sessions'
     "else
-        "let g:session_directory='C:\Dropbox\Programs\Vim\sessions'
+       "let g:session_directory='C:\Dropbox\Programs\Vim\sessions'
     "endif
     "" Do not autoload last saved session and don't prompt for it"
     "let g:session_autoload='no'
     "if has('win32') || has('win64')
-        "let g:session_autosave='yes'
+       "let g:session_autosave='yes'
     "else
-        "let g:session_autosave='no'
+       "let g:session_autosave='no'
 "    endif
 "}}}2
 "" CtrlP {{{2
@@ -483,17 +511,17 @@ filetype indent on
         endfunction
     endif "}}}2
     if !exists("*MyRound") "{{{2
-        " Rounds numbers to 2 digits after comma 
+        " Rounds numbers to 2 digits after comma
         function! MyRound()
             execute '%s/\d\+\.\d\+/\=printf(\'%.2f\',str2float(submatch(0)))/g'
         endfunction
     endif "}}}2
     if !exists("*NeatFoldText") "{{{2
-        
+
         if has('gui_running')
             function! NeatFoldText()
-                let line = ' ' . substitute(getline(v:foldstart), 
-                        \ ('^\s*\(["!#%]\|//\)\?\s*\|\s*\(["!#%]\|//\)\?\s*{{' . '{\d*\s*') 
+                let line = ' ' . substitute(getline(v:foldstart),
+                        \ ('^\s*\(["!#%]\|//\)\?\s*\|\s*\(["!#%]\|//\)\?\s*{{' . '{\d*\s*')
                         \ , '', 'g') . ' '
                 let lines_count = v:foldend - v:foldstart + 1
                 let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
@@ -506,8 +534,8 @@ filetype indent on
             "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
         else
             function! NeatFoldText()
-                let line = ' ' . substitute(getline(v:foldstart), 
-                        \ ('^\s*\(["!#%]\|//\)\?\s*\|\s*\(["!#%]\|//\)\?\s*{{' . '{\d*\s*') 
+                let line = ' ' . substitute(getline(v:foldstart),
+                        \ ('^\s*\(["!#%]\|//\)\?\s*\|\s*\(["!#%]\|//\)\?\s*{{' . '{\d*\s*')
                         \ , '', 'g') . ' '
                 let lines_count = v:foldend - v:foldstart + 1
                 let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
@@ -520,7 +548,7 @@ filetype indent on
             "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
         endif
     endif
-    
+
     set foldtext=NeatFoldText() "}}}2
 "}}}1
 " [5] Other option settings {{{1
@@ -537,7 +565,7 @@ filetype indent on
 "}}}1
 " [6] General settings {{{1
 
-    set hidden 
+    set hidden
     set nobackup
     set noswapfile
 
@@ -547,7 +575,7 @@ filetype indent on
     set tabstop=4       " a tab is four spaces
     set backspace=indent,eol,start
     " allow backspacing over everything in insert mode
-    set autoindent      "autoindent always set autoindenting on
+    set autoindent      " autoindent always set autoindenting on
     set copyindent      " copy the previous indentation on autoindenting
     set shiftwidth=4    " number of spaces to use for autoindenting
     set shiftround      " use multiple of shiftwidth when indenting with '<' and '>'
@@ -570,7 +598,7 @@ filetype indent on
     set history=1000         " remember more commands and search history
     set undolevels=1000      " use many muchos levels of undo
     set wildignore=*.swp,*.bak,*.pyc,*.class
-    " Enable the title string 
+    " Enable the title string
     set title                " change the terminal's title
     " configure title to look like: /path/to/file
     set titlestring=\ %-25.140F\ %a%r%m titlelen=140
@@ -594,10 +622,8 @@ filetype indent on
     set nowinfixwidth            " :set winfixwidth -->fixed window size so nerdtree etc. does not shrink active window
     set mousehide           " Hide the mouse when typing text
     let c_comment_strings=1 " I like highlighting strings inside C comments
-
     "
     set encoding=utf-8
-
     set wildmenu            " visual autocomplete for command menu
     set lazyredraw          " redraw only when we need to.
 "}}}1
@@ -619,18 +645,18 @@ if has('gui_running')
     " Set winpos after setting guifont, so window can be reset and put in right
     " place !!!
     "
-    " We need both!! 
+    " We need both!!
     " On starting vim we need autocmd
     autocmd GUIEnter * winpos 0 30
     " This is for everytime vc file is refreshed
-    winpos 0 30  
+    winpos 0 30
 
     let g:Powerline_symbols="fancy"
     set laststatus=2
     colorscheme xoria256
     "colorscheme sorcerer
     "colorscheme fu
-    
+
     " -----------------------------
     " Set GUI options, like having tabs etc.
     " -----------------------------
@@ -655,67 +681,67 @@ if has('gui_running')
     " -----------------------------
     set guitablabel=\[%N\]\ %t\ %M
 
-    " Autocommand filetype specific -> buffer enter {{{2
-    augroup configgroup
-        autocmd! BufEnter,BufNewFile *.do,*.ado
-            \ setlocal nowrap |
-            \ setlocal formatoptions-=t |
-            \ call MyConceal()
-            "\ set gfn=Consolas\ for\ Powerline\ FixedD:b:h11 |
-            "\ let g:Powerline_symbols="fancy" |
-            "\ set t_Co=256 |
-            "\ set laststatus=2 |
-            "\ highlight ColorColumn ctermbg=235 guibg=#262626
-        autocmd! BufEnter,BufNewFile *.tex
-            \ highlight Conceal cterm=NONE ctermbg=NONE ctermfg=darkblue guibg=NONE guifg=NONE |
-            \ hi SignColumn  ctermfg=235 guifg=#202020 guibg=#202020 |
-            \ hi Folded guifg= #C5C5BF guibg=#3C3C59 |
-            \ hi ColorColumn ctermbg=235 guibg=#262626
-            "\ set regexpengine=1
-            "\ set gfn=Consolas\ for\ Powerline\ FixedD:b:h11 |
-            "\ let g:Powerline_symbols="compatible" |
-            "\ set t_Co=256 |
-            "\ set laststatus=2 |
-            "\ colorscheme elflord |
-        autocmd! BufEnter,BufNewFile *.f90,*.f95,*.f77
-            \ retab |
-            \ write |
-            \ IndentGuidesEnable |
-            \ call MyConceal()
-            "\ set encoding=utf-8 |
-            "\ set guifont=Consolas\ for\ Powerline\ FixedD:b:h11 |
-            "\ let g:Powerline_symbols="fancy" |
-            "\ set t_Co=256 |
-            "\ set laststatus=2 |
-            "\ highlight ColorColumn ctermbg=235 guibg=#262626 |
-            "\ highlight SignColumn  ctermfg=235 guifg=#262626
-        autocmd! BufEnter,BufNewFile *.m,*.r
-            \ retab |
-            \ IndentGuidesEnable |
-            \ call MyConceal()
-            "\ set gfn=Consolas\ for\ Powerline\ FixedD:b:h11 |
-            "\ let g:Powerline_symbols="fancy" |
-            "\ set t_Co=256 |
-            "\ set laststatus=2 |
-            "\ highlight ColorColumn ctermbg=235 guibg=#262626
-        autocmd! BufEnter,BufNewFile *.sh
-            \ call MyConceal()
-            "\ colorscheme zmrok |
-            "\ set gfn=Consolas\ for\ Powerline\ FixedD:b:h11 |
-            "\ let g:Powerline_symbols="fancy" |
-            "\ set t_Co=256 |
-            "\ set laststatus=2 |
-            "\ highlight ColorColumn ctermbg=235 guibg=#262626
-        "autocmd! BufLeave *.do,*.ado,*.tex,*.f90,*.f95,*.f77,*.sh,*.m
-            "set wrap |
-            "set formatoptions+=t
-            "\ set encoding=utf-8 |
-            "\ set guifont=Consolas\ for\ Powerline\ FixedD:b:h11 |
-            "\ let g:Powerline_symbols="fancy" |
-            "\ set t_Co=256 |
-            "\ set laststatus=2 |
-            "\ highlight ColorColumn ctermbg=235 guibg=#262626
-    augroup END 
+    "" Autocommand filetype specific -> buffer enter {{{2
+    "augroup configgroup
+        "autocmd! BufEnter,BufNewFile *.do,*.ado
+            "\ setlocal nowrap |
+            "\ setlocal formatoptions-=t |
+            "\ call MyConceal()
+            ""\ set gfn=Consolas\ for\ Powerline\ FixedD:b:h11 |
+            ""\ let g:Powerline_symbols="fancy" |
+            ""\ set t_Co=256 |
+            ""\ set laststatus=2 |
+            ""\ highlight ColorColumn ctermbg=235 guibg=#262626
+        "autocmd! BufEnter,BufNewFile *.tex
+            "\ highlight Conceal cterm=NONE ctermbg=NONE ctermfg=darkblue guibg=NONE guifg=NONE |
+            "\ hi SignColumn  ctermfg=235 guifg=#202020 guibg=#202020 |
+            "\ hi Folded guifg= #C5C5BF guibg=#3C3C59 |
+            "\ hi ColorColumn ctermbg=235 guibg=#262626
+            ""\ set regexpengine=1
+            ""\ set gfn=Consolas\ for\ Powerline\ FixedD:b:h11 |
+            ""\ let g:Powerline_symbols="compatible" |
+            ""\ set t_Co=256 |
+            ""\ set laststatus=2 |
+            ""\ colorscheme elflord |
+        "autocmd! BufEnter,BufNewFile *.f90,*.f95,*.f77
+            "\ retab |
+            "\ !write |
+            "\ IndentGuidesEnable |
+            "\ call MyConceal()
+            ""\ set encoding=utf-8 |
+            ""\ set guifont=Consolas\ for\ Powerline\ FixedD:b:h11 |
+            ""\ let g:Powerline_symbols="fancy" |
+            ""\ set t_Co=256 |
+            ""\ set laststatus=2 |
+            ""\ highlight ColorColumn ctermbg=235 guibg=#262626 |
+            ""\ highlight SignColumn  ctermfg=235 guifg=#262626
+        "autocmd! BufEnter,BufNewFile *.m,*.r
+            "\ retab |
+            "\ IndentGuidesEnable |
+            "\ call MyConceal()
+            ""\ set gfn=Consolas\ for\ Powerline\ FixedD:b:h11 |
+            ""\ let g:Powerline_symbols="fancy" |
+            ""\ set t_Co=256 |
+            ""\ set laststatus=2 |
+            ""\ highlight ColorColumn ctermbg=235 guibg=#262626
+        "autocmd! BufEnter,BufNewFile *.sh
+            "\ call MyConceal()
+            ""\ colorscheme zmrok |
+            ""\ set gfn=Consolas\ for\ Powerline\ FixedD:b:h11 |
+            ""\ let g:Powerline_symbols="fancy" |
+            ""\ set t_Co=256 |
+            """\ set laststatus=2 |
+            ""\ highlight ColorColumn ctermbg=235 guibg=#262626
+        ""autocmd! BufLeave *.do,*.ado,*.tex,*.f90,*.f95,*.f77,*.sh,*.m
+            ""set wrap |
+            ""set formatoptions+=t
+            ""\ set encoding=utf-8 |
+            ""\ set guifont=Consolas\ for\ Powerline\ FixedD:b:h11 |
+            ""\ let g:Powerline_symbols="fancy" |
+            ""\ set t_Co=256 |
+            ""\ set laststatus=2 |
+            ""\ highlight ColorColumn ctermbg=235 guibg=#262626
+    "augroup END
     "}}}2
 else
     " ----------------------------------
@@ -748,7 +774,7 @@ else
         "" 5 -> blinking vertical bar
         "" 6 -> solid vertical bar
     "endif
-    
+
     "" changes the cursor shape/color
     "" in the terminal depending on the mode
     "" see http://code.google.com/p/iterm2/issues/detail?id=710&q=cursor
@@ -799,62 +825,78 @@ endif
     let g:indent_guides_guide_size = 1
 "}}}1
 " [9] Autocommands  {{{1
-augroup filetype_vim
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker | call MyConceal()
-augroup END
+    augroup filetype_vim
+        autocmd!
+        autocmd FileType vim setlocal foldmethod=marker | call MyConceal()
+    augroup END
 
-augroup filetype_stata
-    autocmd!
-    autocmd FileType stata setlocal foldmethod=marker | call MyConceal() | 
-                \ setlocal textwidth=0 | setlocal nowrap
-augroup END
+    augroup filetype_stata
+        autocmd!
+        autocmd FileType stata setlocal foldmethod=marker | call MyConceal() |
+                    \ setlocal textwidth=0 | setlocal nowrap
+    augroup END
 
-augroup filetype_fortran
-    autocmd!
-     autocmd FileType fortran setlocal foldmethod=marker | call MyConceal() |
-                 \ let b:match_words.=',(:)'
-augroup END
+    augroup filetype_fortran
+        autocmd!
+        autocmd FileType fortran setlocal foldmethod=marker | call MyConceal() |
+                    \ let b:match_words.=',(:)'
+    augroup END
 
-"augroup filetype_latex
-    "autocmd!
-     "autocmd FileType latex let b:match_words.=',(:)'
-"augroup END
+    augroup filetype_latex
+        autocmd!
+        "autocmd FileType latex let b:match_words.=',(:)'
+        " This savs the .tex file before it compiles it
+        autocmd FileType tex
+            \ call Tex_MakeMap('<leader>ll', ':update!<CR>:call Tex_RunLaTeX()<CR>', 'n', '<buffer>')
+        autocmd FileType tex
+            \ call Tex_MakeMap('<leader>ll', '<ESC>:update!<CR>:call Tex_RunLaTeX()<CR>', 'v', '<buffer>')
+    augroup END
 
-augroup filetype_log
-    autocmd FileType log setlocal autoread
-augroup END
+    augroup filetype_log
+        autocmd FileType log setlocal autoread
+    augroup END
 
-augroup filetype_R
-    autocmd!
-    autocmd FileType r setlocal foldmethod=marker | call MyConceal()
-augroup END
+    augroup filetype_R
+        autocmd!
+        autocmd FileType r setlocal foldmethod=marker | call MyConceal()
+    augroup END
 
-augroup filetype_matlab
-    autocmd!
-    autocmd FileType matlab setlocal foldmethod=marker | 
-                \ setlocal commentstring=%%s | 
-                \ call MyConceal()
-augroup END
+    augroup filetype_python
+        autocmd!
+        autocmd FileType python setlocal foldmethod=marker | call MyConceal()
+    augroup END
+
+    augroup filetype_matlab
+        autocmd!
+        autocmd FileType matlab setlocal foldmethod=marker |
+                    \ setlocal commentstring=%%s |
+                    \ call MyConceal()
+    augroup END
 
 " Set the syntax for files that are not immediately recognized
-augroup setFiletype
-    autocmd!
-    autocmd BufRead,BufNewFile *.md set filetype=markdown | call MyConceal()
-    autocmd BufRead,BufNewFile *.rdf set filetype=redif | call MyConceal()
-    autocmd BufRead,BufNewFile *.mod set filetype=dynare | call MyConceal()
-    autocmd BufRead,BufNewFile *.jl set filetype=julia | call MyConceal()
-    autocmd BufRead,BufNewFile *.log set filetype=log 
-augroup END
+    augroup setFiletype
+        autocmd!
+        autocmd BufRead,BufNewFile *.md set filetype=markdown | call MyConceal()
+        autocmd BufRead,BufNewFile *.rdf set filetype=redif | call MyConceal()
+        autocmd BufRead,BufNewFile *.mod set filetype=dynare | call MyConceal()
+        autocmd BufRead,BufNewFile *.jl set filetype=julia | call MyConceal()
+        autocmd BufRead,BufNewFile *.log set filetype=log
+    augroup END
+
+" Deal with whitespace and tabs on saving
+    augroup treatWhite
+        autocmd!
+        autocmd BufWritePre *.py,*.m,*.vimrc,*f90 :%s/\s\+$//e | retab
+    augroup END
 
 " Insert mode highlight
-augroup highlightCursorline
-    autocmd!
-    autocmd InsertEnter * highlight CursorLine guifg=white guibg=grey40
-                \ ctermfg=white ctermbg=darkgray
-    autocmd InsertLeave * highlight CursorLine guifg=white guibg=grey25
-                \ ctermfg=white ctermbg=238
-augroup END
+    augroup highlightCursorline
+        autocmd!
+        autocmd InsertEnter * highlight CursorLine guifg=white guibg=grey40
+                    \ ctermfg=white ctermbg=darkgray
+        autocmd InsertLeave * highlight CursorLine guifg=white guibg=grey25
+                    \ ctermfg=white ctermbg=238
+    augroup END
 "}}}1
 "                                                                              "
 " [10] User key bindings {{{1
@@ -976,16 +1018,13 @@ augroup END
     "noremap <leader>l :set columns+=1<CR>
     "noremap <leader>h :set columns-=1<CR>
 
-" Switch between open splits 
+" Switch between open splits
     noremap <leader>j <C-W>j
     noremap <leader>k <C-W>k
     noremap <leader>l <C-W>l
     noremap <leader>h <C-W>h
 "}}}1
 " [12] Plugin Shortcuts {{{1
-" Buffer explorer {{{2
-    nnoremap <leader>b :BufExplorer<CR>
-"}}}2
 " Buffer only {{{2
     nnoremap <leader>woo :BufOnly<CR>
 "}}}2
@@ -994,9 +1033,9 @@ augroup END
     "immediately showing it again, since there is no :NERDTreeFocus command)
     "nnoremap <leader>n :NERDTreeClose<CR>:NERDTreeToggle<CR>:set columns=120<CR>:winpos 0 30<CR>
     "nnoremap <leader>nn :NERDTreeClose<CR>:set columns=90<CR>:winpos 0 30<CR>
+    "nnoremap <leader>m :NERDTreeClose<CR>:NERDTreeFind<CR>
     nnoremap <leader>n :NERDTreeClose<CR>:NERDTreeToggle<CR>
     nnoremap <leader>nn :NERDTreeClose<CR>
-    nnoremap <leader>m :NERDTreeClose<CR>:NERDTreeFind<CR>
 "}}}2
 " Voom settings {{{2
     "nnoremap <leader>v :Voom latex<CR>:set columns=120<CR>:winpos 0 30<CR>
@@ -1068,9 +1107,18 @@ augroup END
     " Use the rank sorter for everything
     call unite#filters#sorter_default#use(['sorter_rank'])
 
+    " Browse open buffers
+    nnoremap <Leader>b :Unite -buffer-name=buffers -winheight=10 buffer<cr>
+
+    " Browse recently edited files
+    nnoremap <silent> <Leader>m :Unite -buffer-name=recent -winheight=10 file_mru<cr>
+
+    " Browse recursive list of all the files under the current working
+    " directory (CTRL-P functionvim)
+    nnoremap <leader>f :Unite file_rec/async<cr>
+
     nnoremap <space>/ :Unite grep:.<cr>
     nnoremap <space>y :Unite history/yank<cr>
-    nnoremap <leader>f :Unite file_rec<cr>
     nnoremap <silent> <space>p :Unite -start-insert buffer<CR>
     nnoremap <C-h> :Unite -start-insert help<CR>
 
@@ -1105,15 +1153,15 @@ augroup END
 " F3: Relative/absolute line numbers toggle
     nnoremap <F3> :NumbersToggle<CR>
 
-" F4: Unassigned
-    nnoremap <F4> :ShowCodeOverview<CR>
-    nnoremap <S-F4> :HideCodeOverview<CR>
+" F4: Gundo Toggle
+    nnoremap <F5> :GundoToggle<CR>
 
 " F5: Highlight column 79
     "nnoremap <F5> :SnapshotFile<CR>
 
 " F6: Tagbar
-    nnoremap <silent><F6> :TlistToggle<cr>
+    "nnoremap <silent><F6> :TlistToggle<cr>
+    nnoremap <silent><F6> :TagbarToggle<cr>
 
 " F7: Find word under in all files in current dir or subdirectories
     "map <F7> :execute "vimgrep /" . expand("<cword>") . "/j **/*." . expand('%:e') <Bar> cw<CR>
@@ -1132,23 +1180,23 @@ augroup END
 " F10: add time stamp
     nnoremap <F10> a<C-R>=strftime("%m/%d/%Y - %I:%M %p")<CR><Esc>
     inoremap <F10> <C-R>=strftime("%m/%d/%Y - %I:%M %p")<CR>
-    
-" F11: start ipython in current 	dir
-    nnoremap <F11> :silent !start ipython<CR> 
-    inoremap <F11> <Esc>:silent !start ipython<CR> 
-    
-" F12: start ipython notebook in current dir
-" you can import a python script into the notebook using: load myfile.py 
-    nnoremap <F12> :silent !start ipython notebook<CR> 
-    inoremap <F12> <Esc>:silent !start ipython notebook<CR> 
+
+" F11: start ipython in current     dir
+    nnoremap <F11> :silent !start ipython<CR>
+    inoremap <F11> <Esc>:silent !start ipython<CR>
+
+" Shift F11: start ipython notebook in current dir
+" you can import a python script into the notebook using: load myfile.py
+    nnoremap <S-F11> :silent !start ipython notebook<CR>
+    inoremap <S-F11> <Esc>:silent !start ipython notebook<CR>
 
 "}}}1
 " [14] My macros and abbreviations {{{1
 " [1] Put dollar signs around selection
-let @1 = 'xi$pa$'   
+let @1 = 'xi$pa$'
 
 " [2] Macro to put \hline into .tex tables
-let @a = 'ggjjjyyjpjjpjjjjpjjjjjpjjjjjjpjjjpjpjjjpjpjpddjjpjpjjjpjjjjpjjjjpjjjjztkkkjjpjpjjjjjkkkpjjjjjjpjpjjpjjjpjjgg'
+let @a = 'ggjjjyyjpjjpjjjjpjjjjjpjjjjjjpjjjpjpjjjpjpjpddjjpjpjjjpjjjjpjjjjpjjjjztkkkjjpjpjjjjjkkkpjjjjjjpjpjjpjjjpjjjjpgg'
 " [3] Macro shorten table
 let @b = 'gg5j3dd2jddjddkddjddkddjjdd3j8ddj2ddji+ji+ji+jddjj2dd:295ddddjjddjjjddj10dd10dd5dddd:18dd3kkp5dd:4p:323dd:9p:2015dd:12p:192dd:32p'
 
@@ -1168,7 +1216,7 @@ let @b = 'gg5j3dd2jddjddkddjddkddjjdd3j8ddj2ddji+ji+ji+jddjj2dd:295ddddjjddj
     :abbrev hte the
     :iabbrev hte the
 "}}}1
-" [2] Put Fold markers {{{1 
+" [2] Put Fold markers {{{1
 let @w = '$a {{{1lxxx'
 let @e = '0i!}}}1'
 "}}}1
