@@ -1587,7 +1587,16 @@ let @a = 'ggjjjjo\hlineyyjjpjjjjpjjjjjpjjjjjjpjjjpjpjjjpjpjpddjjpjpjjjpjjjjpjjj
 let @b = 'ggjjjyyjpjjpjjjjpjjjjjpjjjjjjpjjjpjpjjjpjpjpddjjpjpjjjpjjjjpjjjjpjjjjztkkkjjpjpjjjjjkkkpjjjjjjpjpjjpjjjpjjjjpgg'
 
 " [3] Macro shorten table
-let @c = 'gg5j3dd2jddjddkddjddkddjjdd3j8ddj2ddji+ji+ji+jddjj2dd:295ddddjjddjjjddj10dd10dd5dddd:18dd3kkp5dd:4p:323dd:9p:2015dd:12p:192dd:32p'
+let @c = 'gg5j3dd2jddjddkddjddkddjjdd3j8ddj2ddji+ji+ji+jddjj2dd:29
+5ddddjjddjjjddj10dd10dd5dddd:18
+dd3kkp5dd:4
+p:32
+3dd:9
+p:20
+15dd:12
+p:19
+2dd:32
+p'
 
 " CMS report tables horizontal lines
 let @e = 'ggjjjjo\hlineyyjjpjjjjpjpjjjjpjjjjjjpjjjjjpjjjjjpjjjjpjpjjjpjjpjjjpjpjjjpjjpjjjjjjjpjjjjpjjjpjpjjjkpjjjjjjpjpjjpjjjpjjpjjjjjpjjjjpjjjjp'
