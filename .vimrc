@@ -105,6 +105,7 @@ Plugin 'mhinz/vim-startify'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-dispatch.git'
+Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Raimondi/delimitMate'
@@ -148,6 +149,7 @@ if v:version>703
     Plugin 'klen/python-mode'
     Plugin 'vim-scripts/python.vim'
     Plugin 'vim-scripts/python_match.vim'
+    Plugin 'davidhalter/jedi-vim'
     "Plugin 'Rykka/clickable.vim'
     "Plugin 'Rykka/riv.vim'
     Plugin 'vim-scripts/vimf90'
@@ -228,7 +230,6 @@ endif
 "Bundle 'tpope/vim-endwise'
 "Bundle 'stephenmckinney/vim-solarized-powerline.git'
 "Bundle 'matthias-guenther/hammer.vim'
-"Bundle 'tpope/vim-fugitive'
 "Bundle 'wincent/command-t'
 "Bundle 'tpope/vim-rails.git'
 "Bundle 'mileszs/ack.vim'
@@ -431,6 +432,31 @@ filetype plugin indent on    " required
             execute 'cd %:p:h'
         endfunction
     endif "}}}2
+    if !exists("*MakeAllPweave2HtmlSilent") "{{{2
+        " First transforms Pweave file .Pnw into a reST .rst file
+        " Then calls iPython module to generate all .rst files and the make
+        " them into html
+        function! MakeAllPweave2HtmlSilent()
+            execute 'cd %:p:h'
+            execute 'write!'
+            execute 'silent !start cmd /k "ipython --profile=juergen" "run jBuildallPnw.py"'
+            execute 'cd..'
+            execute 'silent make html'
+            execute 'cd %:p:h'
+        endfunction
+    endif "}}}2
+    if !exists("*ShowHtmlSilent") "{{{2
+        " First transforms Pweave file .Pnw into a reST .rst file
+        " Then calls iPython module to generate all .rst files and the make
+        " them into html
+        function! ShowHtmlSilent()
+            execute 'cd %:p:h'
+            execute 'cd..'
+            let jfile = ' "' . 'file://' . getcwd() . '/build/html' . '/' . expand("%:t:r") . '.html' . '"'
+            execute 'silent !' . 'start' .' ' . 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe' . jfile
+            execute 'cd %:p:h'
+        endfunction
+    endif "}}}2
     if !exists("*SetWinPos") "{{{2
         " Saves window position and then resets it
         function! SetWinPos()
@@ -535,6 +561,8 @@ filetype plugin indent on    " required
     let g:Tex_CompileRule_pdf='pdflatex --synctex=-1 -src-specials -interaction=nonstopmode $*'
     let g:Tex_GotoError=0
     let g:tex_fast= "bcMrsvV"
+    "let g:Tex_UsePython=0
+
     "p...parts,section,chapter makes latex-syntax highlighting very SLOW!!
     "let g:tex_fast= "bcmMprsvV"
     "let g:tex_fast= ""
@@ -583,19 +611,22 @@ filetype plugin indent on    " required
     let g:pymode = 1
     let g:pymode_indent = 0
 
+    " Linting
     let g:pymode_lint = 0
     " Disable pylint checking every save
     let g:pymode_lint_write = 0
     let g:pymode_folding = 0
     "let g:pymode_motion = 1
-    "let g:pymode_doc = 1
+    let g:pymode_doc = 1
+    let g:pymode_doc_key = 'K'
     "let g:pymode_doc_bind = 1
     "" Set key 'R' for run python code
     "let g:pymode_run = 1
     "let g:pymode_run_key='R'
     "let g:pymode_run_bind ='<leader>r'
 
-    "let g:pymode_breakpoint = 1
+    " Enable breakpoints plugin
+    let g:pymode_breakpoint = 1
     let g:pymode_breakpoint_bind = '<leader>b'
     "let g:pymode_breakpoint_cmd = ''
 
@@ -626,14 +657,15 @@ filetype plugin indent on    " required
     "let g:pymode_rope_goto_definition_bind = '<C-c>g'
     "let g:pymode_rope_goto_definition_cmd = 'new'
 
-    "let g:pymode_syntax = 1
-    "let g:pymode_syntax_all = 1
+    " Expanded syntax highlighting features
+    let g:pymode_syntax = 1
+    let g:pymode_syntax_all = 1
+    let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+    let g:pymode_syntax_space_errors = g:pymode_syntax_all
     "let g:pymode_syntax_print_as_function = 1
     "let g:pymode_syntax_highlight_equal_operator = g:pymode_syntax_all
     "let g:pymode_syntax_highlight_stars_operator = g:pymode_syntax_all
     "let g:pymode_syntax_highlight_self = g:pymode_syntax_all
-    "let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-    "let g:pymode_syntax_space_errors = g:pymode_syntax_all
     "let g:pymode_syntax_string_formatting = g:pymode_syntax_all
     "let g:pymode_syntax_string_format = g:pymode_syntax_all
     "let g:pymode_syntax_string_templates = g:pymode_syntax_all
@@ -643,7 +675,18 @@ filetype plugin indent on    " required
     "let g:pymode_syntax_highlight_exceptions = g:pymode_syntax_all
     "let g:pymode_syntax_docstrings = g:pymode_syntax_all
 "}}}2
-" [3.10] Startify {{{2
+" [3.10] Jedi-vim Python plugin {{{2
+"───────────────────────────────────────────────────────────────────────────────
+"Here are a few more defaults for actions, read the docs (:help jedi-vim) to
+"get more information. If you set them to "", they are not assigned.
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<leader>d"
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>u"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<leader>r"
+"}}}2
+" [3.11] Startify {{{2
 "───────────────────────────────────────────────────────────────────────────────
     if hostname()=="econ01"
         let g:startify_session_dir    = '~/.sessions'
@@ -692,7 +735,7 @@ filetype plugin indent on    " required
     "cchar=●→▲←↓↑▼ ▾▸■□▼◘◙↓→↔↕❶❷❸❹❺❻❼❽❾❿ ⮀⮁⮂⮃⭤⭠
     "-----------------------------------
         "}}}2
-" [3.11] Vim Languagetool - grammar check {{{2
+" [3.12] Vim Languagetool - grammar check {{{2
 "───────────────────────────────────────────────────────────────────────────────
     if has('win32') || has('win64')
         let g:languagetool_jar='C:/Programs/LanguageTool-2.2/languagetool-commandline.jar'
@@ -1125,6 +1168,8 @@ filetype plugin indent on    " required
         "au FileType pweave nnoremap <F12> :call MakePweave2Html()<cr>
         au FileType pweave nnoremap <leader>ll :call MakePweave2HtmlSilent()<cr>
         au FileType pweave nnoremap <leader>lll :call MakePweave2Html()<cr>
+        au FileType pweave nnoremap <leader>lla :call MakeAllPweave2HtmlSilent()<cr>
+        au FileType pweave nnoremap <leader>lv :call ShowHtmlSilent()<cr>
 
         " Insert python codeblock
         au FileType pweave nnoremap <leader>pp i<<>>= <cr><cr>@<ESC>ki
@@ -1181,11 +1226,18 @@ filetype plugin indent on    " required
         au FileType pweave iabbrev adw .. warning::
         au FileType pweave iabbrev adn .. note::
     augroup END "}}}2
+    augroup filetype_html {{{2
+        au!
+        au FileType html nnoremap <leader>lv :update<Bar>silent !start "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "file://%:p"<CR>
+
+        "Start or end bold text inline
+        au FileType html inoremap <leader>bb <strong>
+    augroup END "}}}2
 " [9.3] Deal with whitespace and tabs on saving {{{2
 "───────────────────────────────────────────────────────────────────────────────
     augroup treatWhite
         autocmd!
-        autocmd BufWritePre *.py,*.m,*.vimrc,*f90 :%s/\s\+$//e | retab
+        autocmd BufWritePre *.py,*.m,*.vimrc,*f90,*.Pnw :%s/\s\+$//e | retab
     augroup END "}}}2
 " [9.4] Turn on conceal feature by filetype when sourcing .vimrc file {{{2
 "───────────────────────────────────────────────────────────────────────────────
@@ -1293,7 +1345,8 @@ filetype plugin indent on    " required
 
 " Call myMakefile to delete aux .tex files
     nnoremap <leader>lc :silent !make -f myMakefile<CR>
-    nnoremap <leader>lll :g/\\input{tcilatex}/d<CR><Esc>:w<CR><Esc>
+    nnoremap <leader>lll :g/\\input{tcilatex}/d<CR><Esc>:w<CR><Esc>:!bibtex %:r<CR><Esc>
+    nnoremap <leader>lb :!bibtex %:r<CR><Esc>
     nnoremap <leader>rr :%s/\d\+\.\d\+/\=printf('%.2f',str2float(submatch(0)))/g<CR>
 "}}}1
 
@@ -1517,7 +1570,9 @@ filetype plugin indent on    " required
 "───────────────────────────────────────────────────────────────────────────────
 " Save a file
 command W w
-
+" Save all files
+command Wa wa
+"}}}1
 " [15] My macros and abbreviations {{{1
 "───────────────────────────────────────────────────────────────────────────────
 " [1] Put dollar signs around selection
